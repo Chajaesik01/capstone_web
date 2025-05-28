@@ -7,9 +7,11 @@ import thirdImg from '@/assets/dashboard/3.svg';
 import fourthImg from '@/assets/dashboard/4.svg';
 import fifthImg from '@/assets/dashboard/5.svg';
 import home from '@/assets/dashboard/home.svg';
+import co2 from '@/assets/dashboard/co2.svg';
 import calendar from '@/assets/dashboard/calendar.svg';
 import BarLineChart from './chart/BarLineChart';
 import CircleChart from './chart/CircleChart';
+import LineChart from './chart/LineChart';
 
 const StyledDashboard = () => {
   return (
@@ -104,8 +106,13 @@ const StyledDashboard = () => {
           <CircleChart />
         </S.Row>
       </S.DashboardMiddle>
-
-      <S.DashboardBottom></S.DashboardBottom>
+      <S.DashboardBottom>
+        <S.BottomTitle>
+          <img src={co2} alt="co2" />
+          Carbon Footprint CO2
+        </S.BottomTitle>
+        <LineChart />
+      </S.DashboardBottom>
     </S.DashboardWrapper>
   );
 };
@@ -189,6 +196,14 @@ const S = {
   DashboardBottom: styled.div`
     width: 100%;
     height: 25vh;
-    background-color: green;
+    padding: 0px 10px;
+  `,
+  BottomTitle: styled.div`
+    display: flex;
+    justify-content: start;
+    width: 90%;
+    font-size: 23px;
+    font-weight: 700px;
+    gap: 0.7vw;
   `,
 };
