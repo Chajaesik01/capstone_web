@@ -8,6 +8,8 @@ import fourthImg from '@/assets/dashboard/4.svg';
 import fifthImg from '@/assets/dashboard/5.svg';
 import home from '@/assets/dashboard/home.svg';
 import calendar from '@/assets/dashboard/calendar.svg';
+import BarLineChart from './chart/BarLineChart';
+import CircleChart from './chart/CircleChart';
 
 const StyledDashboard = () => {
   return (
@@ -97,6 +99,10 @@ const StyledDashboard = () => {
             Daily Energy Cost
           </div>
         </S.MiddleTitle>
+        <S.Row>
+          <BarLineChart />
+          <CircleChart />
+        </S.Row>
       </S.DashboardMiddle>
 
       <S.DashboardBottom></S.DashboardBottom>
@@ -118,7 +124,7 @@ const S = {
   DashboardHeader: styled.div`
     display: flex;
     width: 100%;
-    height: 25vh;
+    height: 20vh;
     flex-direction: row;
     padding: 0px 10px;
     gap: 1vw;
@@ -170,12 +176,13 @@ const S = {
     width: 100%;
     height: 40vh;
     padding: 0px 10px;
+    margin-bottom: 7vh;
   `,
 
   MiddleTitle: styled.div`
     display: flex;
     justify-content: space-between;
-    width: 70%;
+    width: 90%;
     font-size: 23px;
     font-weight: 700px;
   `,
