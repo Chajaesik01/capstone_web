@@ -4,6 +4,7 @@ const ROUTER_PATH = {
   DASHBOARD: '/dashboard',
   SIGNUP: '/signup',
   MYPAGE: '/mypage',
+  AUTH: '/auth',
 };
 
 const NAVIGATION_BAR = {

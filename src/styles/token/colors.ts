@@ -12,6 +12,7 @@ const scale = {
     s700: raw.green.r700,
     s800: raw.green.r800,
     s900: raw.green.r900,
+    s1000: raw.green.r1000,
   },
   secondary: {
     s50: raw.lime.r50,
@@ -118,8 +119,8 @@ const semantic = {
   info: scale.neutral.s600,
   disabled: scale.neutralVariant.s600,
   hover: {
-    primary: scale.primary.s400,
-    secondary: scale.secondary.s400,
+    primary: scale.primary.s1000,
+    secondary: scale.secondary.s900,
     neutral: scale.neutral.s400,
     neutralVariant: scale.neutralVariant.s400,
     success: scale.success.s400,
