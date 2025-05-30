@@ -4,6 +4,8 @@ import Button from '@/components/common/button/Button';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SignupSchema } from '@/schema/schema';
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { saveToUserDB } from '@/api/api';
 
 type FormType = {
   email: string;
@@ -30,9 +32,30 @@ const StyledSignup = () => {
     },
   });
 
-  const onSubmit = (data: FormType) => {
-    console.log('폼 데이터:', data);
-    alert('회원가입이 완료되었습니다!');
+  const onSubmit = async (data: FormType) => {
+    try {
+      const auth = getAuth();
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+
+      await saveToUserDB({
+        userId: userCredential.user.uid,
+        userData: {
+          userId: userCredential.user.uid,
+          email: data.email,
+          password: '',
+          nickname: data.nickname,
+          userType: data.userType,
+        },
+      });
+
+      alert('회원가입이 완료되었습니다!');
+    } catch (error) {
+      console.error('회원가입 에러:', error);
+    }
   };
 
   const handleNicknameCheck = async () => {
@@ -192,7 +215,6 @@ const StyledSignup = () => {
     </S.FormContainer>
   );
 };
-
 const S = {
   FormContainer: styled.div`
     display: flex;
