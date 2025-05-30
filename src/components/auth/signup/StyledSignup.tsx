@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SignupSchema } from '@/schema/schema';
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { saveToUserDB } from '@/api/api';
+import type { AuthProps } from '@/types/types';
 
 type FormType = {
   email: string;
@@ -15,7 +16,7 @@ type FormType = {
   userType: string;
 };
 
-const StyledSignup = () => {
+const StyledSignup = ({ onSwitch }: AuthProps) => {
   const {
     control,
     handleSubmit,
@@ -53,6 +54,7 @@ const StyledSignup = () => {
       });
 
       alert('회원가입이 완료되었습니다!');
+      onSwitch();
     } catch (error) {
       console.error('회원가입 에러:', error);
     }

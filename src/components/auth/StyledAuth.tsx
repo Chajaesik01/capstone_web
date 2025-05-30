@@ -1,12 +1,15 @@
 import styled from 'styled-components';
 import loginImg from '@/assets/login/login_img.svg';
 import Signup from '@/components/auth/signup/Signup';
-//import { useState } from 'react'
+import { useState } from 'react';
 import Login from '@/components/auth//login/Login';
 
 const StyledAuth = () => {
-  //const [isSignup, setIsSignup] = useState(true);
-  const isSignup = true;
+  const [isSignup, setIsSignup] = useState(false);
+
+  const handleChange = () => {
+    setIsSignup(!isSignup);
+  };
 
   return (
     <S.AuthWrapper>
@@ -15,7 +18,11 @@ const StyledAuth = () => {
           <img src={loginImg} alt="loginImg" />
         </S.AuthImgContainer>
         <S.AuthFormContainer>
-          {isSignup ? <Signup /> : <Login />}
+          {isSignup ? (
+            <Signup onSwitch={handleChange} />
+          ) : (
+            <Login onSwitch={handleChange} />
+          )}
         </S.AuthFormContainer>
       </S.AuthContainer>
     </S.AuthWrapper>

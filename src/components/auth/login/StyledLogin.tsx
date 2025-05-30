@@ -5,13 +5,15 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { Controller, useForm } from 'react-hook-form';
 import { LoginSchema } from '@/schema/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import type { AuthProps } from '@/types/types';
+import { useNavigate } from 'react-router-dom';
 
 type LoginType = {
   email: string;
   password: string;
 };
 
-const StyledLogin = () => {
+const StyledLogin = ({ onSwitch }: AuthProps) => {
   const {
     control,
     formState: { errors },
@@ -25,6 +27,8 @@ const StyledLogin = () => {
     },
   });
 
+  const navigate = useNavigate();
+
   const onSubmit = async (data: LoginType) => {
     try {
       const auth = getAuth();
@@ -34,9 +38,14 @@ const StyledLogin = () => {
         data.password
       );
       console.log(login);
+      navigate('/dashboard');
     } catch (error: unknown) {
       console.error('로그인 에러', error);
     }
+  };
+
+  const handleMove = () => {
+    onSwitch();
   };
 
   return (
@@ -56,6 +65,7 @@ const StyledLogin = () => {
                 error={errors.email}
                 name="email"
                 id="email"
+                height="100%"
               />
             )}
           />
@@ -75,6 +85,7 @@ const StyledLogin = () => {
                 error={errors.password}
                 name="password"
                 id="password"
+                height="100%"
               />
             )}
           />
@@ -82,7 +93,7 @@ const StyledLogin = () => {
 
         <S.AuthFormRowItem>
           <p>아이디/비밀번호 찾기</p>
-          <p>회원가입</p>
+          <p onClick={handleMove}>회원가입</p>
         </S.AuthFormRowItem>
         <Button type="submit" height="6vh">
           로그인
@@ -94,11 +105,18 @@ const StyledLogin = () => {
 
 const S = {
   AuthFormWrapper: styled.div`
-    width: 70%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 2.5vh;
+
+    form {
+      width: 60%;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5vh;
+    }
   `,
 
   AuthFormItem: styled.div<{ $hasError?: boolean }>`
