@@ -2,6 +2,7 @@ import { colors } from '@/styles';
 import React from 'react';
 import styled from 'styled-components';
 type ButtonProps = {
+  type?: 'button' | 'submit' | 'reset';
   width?: string;
   height?: string;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -16,6 +17,7 @@ type ButtonStyledProps = {
   $fSize: string;
 };
 const Button = ({
+  type,
   width,
   height,
   onClick,
@@ -29,7 +31,7 @@ const Button = ({
       $height={height || '100%'}
       $fSize={fSize || '16px'}
     >
-      <button onClick={onClick} disabled={disabled}>
+      <button onClick={onClick} disabled={disabled} type={type || 'button'}>
         {children}
       </button>
     </S.ButtonContainer>
