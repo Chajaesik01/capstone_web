@@ -1,4 +1,3 @@
-import React from 'react';
 import StyledLogin from './StyledLogin';
 
 const Login = () => {

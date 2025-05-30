@@ -1,25 +1,93 @@
 import Button from '@/components/common/button/Button';
 import Input from '@/components/common/input/Input';
 import styled from 'styled-components';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { Controller, useForm } from 'react-hook-form';
+import { LoginSchema } from '@/schema/schema';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+type LoginType = {
+  email: string;
+  password: string;
+};
 
 const StyledLogin = () => {
+  const {
+    control,
+    formState: { errors },
+    handleSubmit,
+    //watch,
+  } = useForm({
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
+
+  const onSubmit = async (data: LoginType) => {
+    try {
+      const auth = getAuth();
+      const login = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
+      console.log(login);
+    } catch (error: unknown) {
+      console.error('로그인 에러', error);
+    }
+  };
+
   return (
     <S.AuthFormWrapper>
-      <S.AuthFormItem>
-        <p>이메일</p>
-        <Input />
-      </S.AuthFormItem>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <S.AuthFormItem $hasError={!!errors.email}>
+          <p>이메일</p>
+          <Controller
+            name="email"
+            control={control}
+            render={({ field }) => (
+              <Input
+                selectType="email"
+                placeholder="이메일을 입력하세요"
+                value={field.value}
+                onChange={field.onChange}
+                error={errors.email}
+                name="email"
+                id="email"
+              />
+            )}
+          />
+        </S.AuthFormItem>
 
-      <S.AuthFormItem>
-        <p>비밀번호</p>
-        <Input selectType="password" />
-      </S.AuthFormItem>
+        <S.AuthFormItem $hasError={!!errors.password}>
+          <p>비밀번호</p>
+          <Controller
+            name="password"
+            control={control}
+            render={({ field }) => (
+              <Input
+                selectType="password"
+                placeholder="비밀번호를 입력하세요"
+                value={field.value}
+                onChange={field.onChange}
+                error={errors.password}
+                name="password"
+                id="password"
+              />
+            )}
+          />
+        </S.AuthFormItem>
 
-      <S.AuthFormRowItem>
-        <p>아이디/비밀번호 찾기</p>
-        <p>회원가입</p>
-      </S.AuthFormRowItem>
-      <Button height="6vh">로그인</Button>
+        <S.AuthFormRowItem>
+          <p>아이디/비밀번호 찾기</p>
+          <p>회원가입</p>
+        </S.AuthFormRowItem>
+        <Button type="submit" height="6vh">
+          로그인
+        </Button>
+      </form>
     </S.AuthFormWrapper>
   );
 };
@@ -33,7 +101,7 @@ const S = {
     gap: 2.5vh;
   `,
 
-  AuthFormItem: styled.div`
+  AuthFormItem: styled.div<{ $hasError?: boolean }>`
     width: 100%;
     display: flex;
     flex-direction: column;

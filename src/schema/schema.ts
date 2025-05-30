@@ -23,3 +23,14 @@ export const SignupSchema = z
     message: '비밀번호가 일치하지 않습니다',
     path: ['confirmPassword'],
   });
+
+export const LoginSchema = z.object({
+  email: z
+    .string()
+    .min(1, '이메일을 입력해주세요')
+    .email('올바른 이메일 형식을 입력해주세요'),
+  password: z
+    .string()
+    .min(8, '비밀번호는 최소 8자 이상이어야 합니다')
+    .regex(/[^A-Za-z0-9]/, '특수문자를 최소 1개 포함해야 합니다'),
+});
