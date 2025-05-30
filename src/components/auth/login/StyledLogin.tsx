@@ -7,7 +7,8 @@ import { LoginSchema } from '@/schema/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { AuthProps } from '@/types/types';
 import { useNavigate } from 'react-router-dom';
-
+import Cookies from 'js-cookie';
+import { useAuth } from '@/constants/context';
 type LoginType = {
   email: string;
   password: string;
@@ -29,6 +30,8 @@ const StyledLogin = ({ onSwitch }: AuthProps) => {
 
   const navigate = useNavigate();
 
+  const { setUserId } = useAuth();
+
   const onSubmit = async (data: LoginType) => {
     try {
       const auth = getAuth();
@@ -37,7 +40,8 @@ const StyledLogin = ({ onSwitch }: AuthProps) => {
         data.email,
         data.password
       );
-      console.log(login);
+      Cookies.set('userId', login.user.uid, { expires: 30 });
+      setUserId(login.user.uid);
       navigate('/dashboard');
     } catch (error: unknown) {
       console.error('로그인 에러', error);
