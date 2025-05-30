@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@eslint/eslintrc": "^3.2.0",
+    "@hookform/resolvers": "^5.0.1",
     "@types/node": "^22.15.21",
     "@vitejs/plugin-react": "^4.5.0",
     "chart.js": "^4.4.9",
@@ -22,9 +23,11 @@
     "path": "^0.12.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-hook-form": "^7.56.4",
     "react-router-dom": "^7.6.1",
     "styled-component": "^2.8.0",
-    "styled-components": "^6.1.15"
+    "styled-components": "^6.1.15",
+    "zod": "^3.25.40"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.6.1",

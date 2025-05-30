@@ -6,28 +6,58 @@ type InputProps = {
   placeholder?: string;
   width?: string;
   height?: string;
+  value?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  error?: {
+    message?: string;
+    type?: string;
+  };
+  disabled?: boolean;
+  name?: string;
+  id?: string;
 };
 
 type InputStyledProps = {
   $width: string;
   $height: string;
+  $hasError?: boolean;
 };
 
 const Input = ({
-  selectType,
+  selectType = 'text',
   text,
-  placeholder,
-  width,
-  height,
+  placeholder = '',
+  width = '100%',
+  height = '50%',
+  value,
+  onChange,
+  error,
+  disabled = false,
+  name,
+  id,
 }: InputProps) => {
   const Itype = selectType || 'text';
-  const Itext = text || '';
   const Iplaceholder = placeholder || '';
 
   return (
-    <S.InputContainer $width={width || '100%'} $height={height || '50%'}>
-      <input type={Itype} placeholder={Iplaceholder} defaultValue={Itext} />
-    </S.InputContainer>
+    <div>
+      <S.InputContainer $width={width} $height={height} $hasError={!!error}>
+        <input
+          type={Itype}
+          name={name}
+          id={id}
+          placeholder={Iplaceholder}
+          defaultValue={text}
+          value={value}
+          onChange={onChange}
+          disabled={disabled}
+        />
+      </S.InputContainer>
+
+      {error && error.message && (
+        <S.ErrorMessage>⚠️ {error.message}</S.ErrorMessage>
+      )}
+    </div>
   );
 };
 
@@ -45,6 +75,13 @@ const S = {
       padding: 8px 12px;
       outline: none;
     }
+  `,
+
+  ErrorMessage: styled.span`
+    color: #ef4444;
+    font-size: 12px;
+    display: block;
+    margin-bottom: 0;
   `,
 };
 
