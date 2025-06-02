@@ -25,3 +25,19 @@ dist-ssr
 *.sw?
 
 .env
+backend/.env
+
+# Backend - Firebase service account key
+backend/capstone-design-d99e4-firebase-adminsdk-fbsvc-45abdd5fb5.json
+
+# Backend - Python virtual environment
+backend/venv/
+backend/.venv/
+
+# Backend - Python cache files
+backend/__pycache__/
+backend/*.pyc
+
+# Backend - Other sensitive files
+# backend/secrets.ini
+# backend/config.json
