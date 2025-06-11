@@ -7,6 +7,8 @@ import { SignupSchema } from '@/schema/schema';
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { saveToUserDB } from '@/api/api';
 import type { AuthProps } from '@/types/types';
+import DaumPost, { type AddressObj } from '@/api/kakao/DaumPost';
+import { useState } from 'react';
 
 type FormType = {
   email: string;
@@ -14,6 +16,7 @@ type FormType = {
   confirmPassword: string;
   nickname: string;
   userType: string;
+  cardNumber?: string;
 };
 
 const StyledSignup = ({ onSwitch }: AuthProps) => {
@@ -33,6 +36,13 @@ const StyledSignup = ({ onSwitch }: AuthProps) => {
     },
   });
 
+  const [addressTrigger, setAddressTrigger] = useState<boolean>(false);
+  const userType = watch('userType');
+  const [addressObj, setAddressObj] = useState<AddressObj>({
+    areaAddress: '',
+    townAddress: '',
+  });
+
   const onSubmit = async (data: FormType) => {
     try {
       const auth = getAuth();
@@ -50,6 +60,12 @@ const StyledSignup = ({ onSwitch }: AuthProps) => {
           password: '',
           nickname: data.nickname,
           userType: data.userType,
+          ...(data.userType === 'company' && {
+            address: addressObj.areaAddress + addressObj.townAddress,
+          }),
+          ...(data.userType === 'individual' && {
+            cardNumber: 'cardNumber',
+          }),
         },
       });
 
@@ -68,7 +84,6 @@ const StyledSignup = ({ onSwitch }: AuthProps) => {
     }
 
     try {
-      // const response = await checkNicknameDuplicate(nickname);
       alert('사용 가능한 닉네임입니다!');
     } catch (error) {
       console.log(error);
@@ -76,8 +91,18 @@ const StyledSignup = ({ onSwitch }: AuthProps) => {
     }
   };
 
+  const handleAddressUpdate = (obj: AddressObj) => {
+    setAddressObj(obj);
+  };
+
   return (
     <S.FormContainer>
+      {userType === 'company' && (
+        <DaumPost
+          setAddressObj={handleAddressUpdate}
+          trigger={addressTrigger}
+        />
+      )}
       <form onSubmit={handleSubmit(onSubmit)}>
         <S.AuthFormItem $hasError={!!errors.email}>
           <p>이메일</p>
@@ -184,7 +209,6 @@ const StyledSignup = ({ onSwitch }: AuthProps) => {
                 />
                 <label htmlFor="individual">개인</label>
               </S.RadioItem>
-
               <S.RadioItem>
                 <Controller
                   name="userType"
@@ -195,7 +219,10 @@ const StyledSignup = ({ onSwitch }: AuthProps) => {
                       id="company"
                       value="company"
                       checked={field.value === 'company'}
-                      onChange={() => field.onChange('company')}
+                      onChange={() => {
+                        field.onChange('company');
+                        setAddressTrigger(true);
+                      }}
                     />
                   )}
                 />
@@ -210,6 +237,17 @@ const StyledSignup = ({ onSwitch }: AuthProps) => {
           </div>
         </S.AuthRow>
 
+        <S.AuthNomalRow>
+          {addressObj ? (
+            <p>
+              {addressObj.areaAddress}
+              {addressObj.townAddress}
+            </p>
+          ) : (
+            ''
+          )}
+        </S.AuthNomalRow>
+
         <S.AuthFormItem>
           <Button type="submit">등록</Button>
         </S.AuthFormItem>
@@ -217,6 +255,7 @@ const StyledSignup = ({ onSwitch }: AuthProps) => {
     </S.FormContainer>
   );
 };
+
 const S = {
   FormContainer: styled.div`
     display: flex;
@@ -244,8 +283,12 @@ const S = {
 
   AuthRow: styled.div`
     width: 100%;
-    margin-bottom: 20px;
     text-align: center;
+  `,
+  AuthNomalRow: styled.div`
+    width: 100%;
+    text-align: center;
+    margin: 1vh 0;
   `,
 
   AuthNameContainer: styled.div`
