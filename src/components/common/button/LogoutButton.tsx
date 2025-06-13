@@ -1,3 +1,4 @@
+//import { useUserStore } from '@/hooks/auth/auth';
 import { colors } from '@/styles';
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
@@ -8,6 +9,7 @@ const LogoutButton = () => {
 
   const handleLogout = () => {
     Cookies.remove('userId');
+    //useUserStore().clearCache();
     navigate('/auth');
   };
 

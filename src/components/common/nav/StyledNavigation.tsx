@@ -3,8 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { ROUTER_PATH } from '@/constants/constansts';
 import LogoutButton from '@/components/common/button/LogoutButton';
-import { getUserDB, getUserId } from '@/api/api';
-import { useState, useEffect } from 'react';
+import { useUserStore } from '@/hooks/auth/auth';
 
 type StyledNavigationProps = {
   currentPath: string;
@@ -12,37 +11,14 @@ type StyledNavigationProps = {
 
 const StyledNavigation = ({ currentPath }: StyledNavigationProps) => {
   const navigate = useNavigate();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [userData, setUserData] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
 
-  const userId = getUserId();
+  const { user, isLoading, isAuthenticated, error } = useUserStore();
+  if (isLoading) return <div>로딩 중...</div>;
+  if (error) return <div>에러: {error.message}</div>;
+  if (!isAuthenticated) return <div>로그인이 필요합니다</div>;
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      if (userId) {
-        try {
-          const data = await getUserDB(userId);
-          setUserData(data);
-        } catch (error) {
-          console.error('사용자 데이터 가져오기 실패:', error);
-        } finally {
-          setLoading(false);
-        }
-      } else {
-        setLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, [userId]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  const type = userData?.userType === 'company' ? '기업회원' : '개인회원';
-  const nickname = userData?.nickname || '사용자';
+  const type = user.userType === 'company' ? '기업회원' : '개인회원';
+  const nickname = user.nickname || '사용자';
 
   const isDashboardActive = currentPath === ROUTER_PATH.DASHBOARD;
   const isMypageActive = currentPath === ROUTER_PATH.MYPAGE;
