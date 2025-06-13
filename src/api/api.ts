@@ -1,8 +1,10 @@
 import { AuthContext } from '@/constants/context';
+import { database } from '@/firebase-config';
+import { getAuth } from 'firebase/auth';
 import { get, getDatabase, ref, set } from 'firebase/database';
 import { useContext } from 'react';
 
-type saveToUserType = {
+export type UserType = {
   userId: string;
   userData: {
     userId: string;
@@ -13,7 +15,7 @@ type saveToUserType = {
   };
 };
 
-export const saveToUserDB = async ({ userId, userData }: saveToUserType) => {
+export const saveToUserDB = async ({ userId, userData }: UserType) => {
   try {
     const db = getDatabase();
     await set(ref(db, `Users/${userId}`), userData);
@@ -30,6 +32,27 @@ export const checkUserDB = async (userId: string) => {
     return result;
   } catch (error: unknown) {
     console.log('회원 체크 중 에러 ', error);
+  }
+};
+
+export const getUserDB = async (userId: string) => {
+  const userRef = ref(database, `Users/${userId}`);
+  const snapshot = await get(userRef);
+
+  if (snapshot.exists()) {
+    const userData = snapshot.val();
+    return userData;
+  }
+};
+
+export const getUserId = () => {
+  const auth = getAuth();
+  const currentUser = auth.currentUser;
+
+  if (currentUser) {
+    return currentUser.uid;
+  } else {
+    return null;
   }
 };
 
