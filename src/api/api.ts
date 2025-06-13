@@ -1,7 +1,7 @@
 import { AuthContext } from '@/constants/context';
 import { database } from '@/firebase-config';
-import { getAuth } from 'firebase/auth';
 import { get, getDatabase, ref, set } from 'firebase/database';
+import Cookies from 'js-cookie';
 import { useContext } from 'react';
 
 export type UserType = {
@@ -46,14 +46,7 @@ export const getUserDB = async (userId: string) => {
 };
 
 export const getUserId = () => {
-  const auth = getAuth();
-  const currentUser = auth.currentUser;
-
-  if (currentUser) {
-    return currentUser.uid;
-  } else {
-    return null;
-  }
+  return Cookies.get('userId') || '';
 };
 
 export const useAuth = () => useContext(AuthContext);
