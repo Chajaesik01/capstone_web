@@ -15,6 +15,16 @@ export type UserType = {
   };
 };
 
+export type UserInfoType = {
+  userId: string;
+  email: string;
+  password: string;
+  nickname: string;
+  userType: string;
+  address: string;
+  traffic_number: string;
+};
+
 export const saveToUserDB = async ({ userId, userData }: UserType) => {
   try {
     const db = getDatabase();
