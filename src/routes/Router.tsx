@@ -11,6 +11,7 @@ import AuthPage from '@/pages/AuthPage';
 import Navigation from '@/components/common/nav/Navigation';
 import { useAuth } from '@/constants/context';
 import type { ReactNode } from 'react';
+import MyPage from '@/pages/MyPage';
 
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
   const { userId } = useAuth();
@@ -65,7 +66,7 @@ export const Router = () => {
           path: MYPAGE,
           element: (
             <ProtectedRoute>
-              <DashboardPage />
+              <MyPage />
             </ProtectedRoute>
           ),
         },
