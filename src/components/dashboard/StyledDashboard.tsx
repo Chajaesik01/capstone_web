@@ -13,26 +13,29 @@ import BarLineChart from './chart/BarLineChart';
 import CircleChart from './chart/CircleChart';
 import LineChart from './chart/LineChart';
 import type { CarbonAnalysisResult } from '@/types/types';
-import { useState } from 'react';
+import { CarbonDataViewer } from './CarbonDataViewer';
+import { EnergyCarbonDataViewer } from './EnergyCarbonDataViewer';
 
-type StyledDashboardProps = {
-  carbonData: any; // 실제 type으로 변경 필요
-  analyzeCarbonData: CarbonAnalysisResult | undefined;
-  setSelectedYear: React.Dispatch<React.SetStateAction<string>>;
-  setSelectedMonth: React.Dispatch<React.SetStateAction<string>>;
+type StyledDashboardProps = {   
+  carbonData: any; // 실제 type으로 변경 필요   
+  analyzeCarbonData: CarbonAnalysisResult | undefined;   
+  selectedYear: string;   
+  selectedMonth: string;
+  LineSelectedYear: string;
+  BarSelectedYear: string;
+  setSelectedMonth: React.Dispatch<React.SetStateAction<string>>; 
+  setSelectedYear: React.Dispatch<React.SetStateAction<string>>; 
+  setBarSelectedYear: React.Dispatch<React.SetStateAction<string>>;   
+  setLineSelectedYear: React.Dispatch<React.SetStateAction<string>>; 
 }
 
 
-const StyledDashboard = ({ carbonData, analyzeCarbonData, setSelectedYear, setSelectedMonth }:StyledDashboardProps) => {
-
-  
-  const [selectedYear, setSelectedYedr] = useState('2024');
+const StyledDashboard = ({ carbonData, analyzeCarbonData, selectedYear, 
+  selectedMonth, LineSelectedYear, BarSelectedYear, setSelectedMonth, setBarSelectedYear, setSelectedYear, setLineSelectedYear
+ }:StyledDashboardProps) => {
   const locationKey = "0536_0009";
-  const yearKey = "2024";
-  const cData = carbonData?.[locationKey]?.[yearKey];
   const aData = analyzeCarbonData?.[locationKey]?.analysis;
-  console.log('carbonData : ', carbonData)
-  console.log('analyzeCarbonData : ',analyzeCarbonData)
+  //const [selectedBunji, setSelectedBunji] = useState("0536_0009");
   
   return (
     <S.DashboardWrapper>
@@ -46,7 +49,7 @@ const StyledDashboard = ({ carbonData, analyzeCarbonData, setSelectedYear, setSe
               {selectedYear}
             </S.Row>
           </S.HeaderItemTitle>
-          <S.HeaderItemNumber>{Math.floor(aData?.totalElectricity ?? 0).toLocaleString()}Wh</S.HeaderItemNumber>
+          <S.HeaderItemNumber>{Math.floor(aData?.totalElectricity ?? 0).toLocaleString()}<span>Wh</span></S.HeaderItemNumber>
         </S.DashboardHeaderItem>
         <S.DashboardHeaderItem>
           <S.HeaderItemTitle>
@@ -54,10 +57,10 @@ const StyledDashboard = ({ carbonData, analyzeCarbonData, setSelectedYear, setSe
               <img src={secondImg} alt="secondImg" />
               월 평균 전기 사용량
               <br />
-              Utillization
+              {selectedMonth}월
             </S.Row>
           </S.HeaderItemTitle>
-          <S.HeaderItemNumber>{Math.floor(aData?.avgElectricity ?? 0).toLocaleString()}Wh</S.HeaderItemNumber>
+          <S.HeaderItemNumber>{Math.floor(aData?.avgElectricity ?? 0).toLocaleString()}<span>Wh</span></S.HeaderItemNumber>
         </S.DashboardHeaderItem>
         <S.DashboardHeaderItem>
           <S.HeaderItemTitle>
@@ -68,7 +71,7 @@ const StyledDashboard = ({ carbonData, analyzeCarbonData, setSelectedYear, setSe
               {selectedYear}
             </S.Row>
           </S.HeaderItemTitle>
-          <S.HeaderItemNumber>{Math.floor(aData?.totalCarbon ?? 0).toLocaleString()}</S.HeaderItemNumber>
+          <S.HeaderItemNumber>{Math.floor(aData?.totalCarbon ?? 0).toLocaleString()}<span>tCO2eq</span></S.HeaderItemNumber>
         </S.DashboardHeaderItem>
         <S.DashboardHeaderItem>
           <S.HeaderItemTitle>
@@ -76,16 +79,18 @@ const StyledDashboard = ({ carbonData, analyzeCarbonData, setSelectedYear, setSe
               <img src={fourthImg} alt="fourthImg" />
               월 평균 탄소 배출량
               <br />
+              {selectedMonth}월
             </S.Row>
           </S.HeaderItemTitle>
           <S.HeaderItemNumber>
             <S.Row>
               <p>{Math.floor(aData?.avgCarbon ?? 0).toLocaleString()}</p>
-              <span>
+              <span>tCO2eq</span>
+              {/* <span>
                 metric tons
                 <br />
                 CO2/year
-              </span>
+              </span> */}
             </S.Row>
           </S.HeaderItemNumber>
         </S.DashboardHeaderItem>
@@ -101,11 +106,12 @@ const StyledDashboard = ({ carbonData, analyzeCarbonData, setSelectedYear, setSe
           <S.HeaderItemNumber>
             <S.Row>
               <p>{Math.floor(aData?.maxCarbon ?? 0).toLocaleString()}</p>
-              <span>
+              <span>tCO2eq</span>
+              {/* <span>
                 metric tons
                 <br />
                 CO2/year
-              </span>
+              </span> */}
             </S.Row>
           </S.HeaderItemNumber>
         </S.DashboardHeaderItem>
@@ -118,31 +124,35 @@ const StyledDashboard = ({ carbonData, analyzeCarbonData, setSelectedYear, setSe
               탄소 배출량
             </S.Row>
           </S.HeaderItemTitle>
-          <S.HeaderItemNumber>{Math.floor(aData?.minCarbon ?? 0).toLocaleString()}</S.HeaderItemNumber>
+          <S.HeaderItemNumber>{Math.floor(aData?.minCarbon ?? 0).toLocaleString()}<span>tCO2eq</span></S.HeaderItemNumber>
         </S.DashboardHeaderItem>
       </S.DashboardHeader>
       <S.DashboardMiddle>
         <S.MiddleTitle>
-          <div style={{ display: 'flex', gap: '0.7vw' }}>
+            <S.Row>
             <img src={home} alt="home" />
-            Energy Usage
-          </div>
+            <p>에너지 사용</p>
+            </S.Row>
+            <h4><EnergyCarbonDataViewer setBarSelectedYear={setBarSelectedYear} BarSelectedYear={BarSelectedYear}/></h4>
           <div style={{ display: 'flex', gap: '0.7vw' }}>
             <img src={calendar} alt="calendar" />
-            Daily Energy Cost
+            우리 동네에서 내 탄소 점유율
           </div>
         </S.MiddleTitle>
         <S.Row>
-          <BarLineChart />
+          <BarLineChart carbonData = {carbonData} BarSelectedYear = {BarSelectedYear}/>
           <CircleChart />
         </S.Row>
       </S.DashboardMiddle>
       <S.DashboardBottom>
         <S.BottomTitle>
+          <div>
           <img src={co2} alt="co2" />
-          Carbon Footprint CO2
+          탄소 배출량
+          </div>
+          <h4><CarbonDataViewer LineSelectedYear = {LineSelectedYear} LineSetSelectedYear={setLineSelectedYear}/></h4>
         </S.BottomTitle>
-        <LineChart />
+        <LineChart carbonData = {carbonData} LineSelectedYear = {LineSelectedYear}/>
       </S.DashboardBottom>
     </S.DashboardWrapper>
   );
@@ -220,9 +230,24 @@ const S = {
   MiddleTitle: styled.div`
     display: flex;
     justify-content: space-between;
-    width: 90%;
+    width: 100%; 
     font-size: 23px;
-    font-weight: 700px;
+    font-weight: 700;
+
+    div:first-child {
+      display: flex;
+      align-items: center;
+      gap: 0.7vw;
+
+      p {
+        white-space: nowrap;
+      }
+    }
+
+    h4 {
+      width:100%;
+      font-size: 18px;
+    }
   `,
   DashboardBottom: styled.div`
     width: 100%;
@@ -231,10 +256,15 @@ const S = {
   `,
   BottomTitle: styled.div`
     display: flex;
-    justify-content: start;
-    width: 90%;
+    justify-content: space-between;
+    width: 100%;
     font-size: 23px;
     font-weight: 700px;
     gap: 0.7vw;
+
+    h4 {
+      width: 20%;
+      font-size: 18px;
+    }
   `,
 };

@@ -47,7 +47,7 @@ const CircleChart = () => {
               label: (ctx) => `${ctx.label}: ${ctx.parsed}`,
             },
           },
-          // @ts-error
+
           datalabels: {
             formatter: (value: number) => {
               const percent = (value / total) * 100;
@@ -118,9 +118,20 @@ const CircleChart = () => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          flexDirection: 'column',
         }}
       >
         <canvas ref={canvasRef} />
+        <div
+          style={{
+            marginTop: 10,
+            fontSize: 13,
+            color: '#666',
+            textAlign: 'center',
+          }}
+        >
+          (단위: 구)
+        </div>
       </div>
     </div>
   );
@@ -132,6 +143,7 @@ type LegendItemProps = {
   description?: string;
   bgColor: string;
 };
+
 const LegendItem: React.FC<LegendItemProps> = ({
   color,
   label,

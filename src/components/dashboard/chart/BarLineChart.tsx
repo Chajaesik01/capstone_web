@@ -29,9 +29,56 @@ ChartJS.register(
   Filler
 );
 
-const BarLineChart = () => {
+type BarLineChartProps = {
+  carbonData: any;
+  BarSelectedYear: string;
+}
+
+const BarLineChart = ({ carbonData, BarSelectedYear }: BarLineChartProps) => {
   const chartRef = useRef<HTMLCanvasElement | null>(null);
   const chartInstance = useRef<ChartType | null>(null);
+
+  console.log('BarLineChart : ', carbonData);
+  console.log("BarSelectedYear : ", BarSelectedYear);
+
+  // 데이터 처리 함수
+  const processChartData = () => {
+    const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+    const monthLabels = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
+    
+    const carbonEmissionData: number[] = [];
+    const electricityUsageData: number[] = [];
+    
+    // 선택된 연도의 데이터 가져오기
+    const yearData = carbonData && carbonData[Object.keys(carbonData)[0]] && carbonData[Object.keys(carbonData)[0]][BarSelectedYear];
+    
+    if (yearData) {
+      months.forEach(month => {
+        const monthData = yearData[month];
+        if (monthData) {
+          // 탄소 배출량을 kg에서 톤으로 변환 (÷ 1000)
+          carbonEmissionData.push(Math.round(monthData.carbon_emission_kgCO2eq / 1000 * 100) / 100);
+          // 전기 사용량을 kWh에서 MWh로 변환 (÷ 1000)
+          electricityUsageData.push(Math.round(monthData.electricity_usage_kwh / 1000 * 100) / 100);
+        } else {
+          carbonEmissionData.push(0);
+          electricityUsageData.push(0);
+        }
+      });
+    } else {
+      // 데이터가 없는 경우 0으로 채우기
+      months.forEach(() => {
+        carbonEmissionData.push(0);
+        electricityUsageData.push(0);
+      });
+    }
+    
+    return {
+      labels: monthLabels,
+      carbonEmissionData,
+      electricityUsageData
+    };
+  };
 
   useEffect(() => {
     const currentMonth = new Date().getMonth();
@@ -52,27 +99,16 @@ const BarLineChart = () => {
       existingChart.destroy();
     }
 
+    const { labels, carbonEmissionData, electricityUsageData } = processChartData();
+
     chartInstance.current = new ChartJS(ctx, {
       data: {
-        labels: [
-          '1월',
-          '2월',
-          '3월',
-          '4월',
-          '5월',
-          '6월',
-          '7월',
-          '8월',
-          '9월',
-          '10월',
-          '11월',
-          '12월',
-        ],
+        labels: labels,
         datasets: [
           {
             type: 'bar',
-            label: '온도',
-            data: [120, 135, 148, 162, 155, 178, 185, 192, 175, 165, 158, 170],
+            label: '전기 사용량 (MWh)',
+            data: electricityUsageData,
             backgroundColor: Array.from({ length: 12 }, (_, index) =>
               index === currentMonth ? '#FFA048' : '#FFEDD8'
             ),
@@ -81,13 +117,10 @@ const BarLineChart = () => {
           },
           {
             type: 'line',
-            label: '수익률',
-            data: [
-              12.5, 15.2, 18.7, 22.1, 19.8, 25.3, 28.4, 31.2, 26.8, 23.5, 20.1,
-              24.6,
-            ],
+            label: '탄소 배출량 (tCO2eq)',
+            data: carbonEmissionData,
             borderColor: '#3BA881',
-            backgroundColor: 'rgba(255, 99, 132, 0.1)',
+            backgroundColor: 'rgba(59, 168, 129, 0.1)',
             tension: 0.4,
             fill: true,
             yAxisID: 'y1',
@@ -99,11 +132,43 @@ const BarLineChart = () => {
         maintainAspectRatio: false,
         plugins: {
           legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                const label = context.dataset.label || '';
+                const value = context.parsed.y;
+                if (label.includes('전기')) {
+                  return `${label}: ${value} MWh`;
+                } else {
+                  return `${label}: ${value} tCO2eq`;
+                }
+              }
+            }
+          }
         },
         datasets: { bar: { order: 1 }, line: { order: 2 } },
         scales: {
-          y: { position: 'left', ticks: { stepSize: 40 } },
-          y1: { position: 'right', grid: { drawOnChartArea: false } },
+          y: { 
+            position: 'left', 
+            title: {
+              display: true,
+              text: '전기 사용량 (MWh)'
+            },
+            ticks: { 
+              stepSize: Math.max(...electricityUsageData) > 0 ? Math.ceil(Math.max(...electricityUsageData) / 5) : 10
+            } 
+          },
+          y1: { 
+            position: 'right', 
+            title: {
+              display: true,
+              text: '탄소 배출량 (tCO2eq)'
+            },
+            grid: { drawOnChartArea: false },
+            ticks: {
+              stepSize: Math.max(...carbonEmissionData) > 0 ? Math.ceil(Math.max(...carbonEmissionData) / 5) : 5
+            }
+          },
         },
       },
     });
@@ -114,7 +179,26 @@ const BarLineChart = () => {
         chartInstance.current = null;
       }
     };
-  }, []);
+  }, [carbonData, BarSelectedYear]);
+
+  // 요약 통계 계산
+  const calculateSummary = () => {
+    const { carbonEmissionData, electricityUsageData } = processChartData();
+    
+    const totalElectricity = electricityUsageData.reduce((sum, val) => sum + val, 0);
+    const totalCarbon = carbonEmissionData.reduce((sum, val) => sum + val, 0);
+    const avgElectricity = totalElectricity / 12;
+    const avgCarbon = totalCarbon / 12;
+    
+    return {
+      avgElectricity: Math.round(avgElectricity * 100) / 100,
+      avgCarbon: Math.round(avgCarbon * 100) / 100,
+      totalElectricity: Math.round(totalElectricity * 100) / 100,
+      totalCarbon: Math.round(totalCarbon * 100) / 100
+    };
+  };
+
+  const summary = calculateSummary();
 
   return (
     <div
@@ -126,6 +210,7 @@ const BarLineChart = () => {
         padding: '10px',
         marginTop: '1vh',
         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+        backgroundColor: 'white'
       }}
     >
       {/* 차트 영역 */}
@@ -160,7 +245,7 @@ const BarLineChart = () => {
                 marginRight: '8px',
               }}
             ></div>
-            온도
+            탄소 배출량
           </div>
         </div>
 
@@ -203,12 +288,11 @@ const BarLineChart = () => {
               lineHeight: '1.4',
             }}
           >
-            평균 전기 사용량은 <br />
-            이정도 되고 <br />
-            이를 계산한 <br />
-            탄소 배출량은
-            <br />
-            이만큼 입니다
+            {BarSelectedYear}년 평균<br />
+            전기 사용량 : &nbsp;
+            <strong>{summary.avgElectricity} MWh</strong><br />
+            탄소 배출량: &nbsp;
+            <strong>{summary.avgCarbon} tCO2eq</strong>
           </div>
         </div>
       </div>

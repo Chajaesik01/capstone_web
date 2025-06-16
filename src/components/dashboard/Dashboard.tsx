@@ -10,9 +10,11 @@ const Dashboard = () => {
   const [carbonLoading, setCarbonLoading ] = useState(true);
   const [analyzeCarbonData, setAnalyzeCarbonData] = useState<CarbonAnalysisResult>();
   const [analyzeCarbonLoading, setAnalyzeCarbonLoading] = useState(true);
-  const { latestData, selectedData, availableDates, loading } = useCarbonData('서울특별시_강남구_신사동');
+  const {latestData, selectedData, availableDates, loading } = useCarbonData('서울특별시_강남구_신사동');
+  const [barSelectedYear, setBarSelectedYear] = useState("2024");
+  const [LineSelectedYear, setLineSelectedYear] = useState("2024");
   const [selectedYear, setSelectedYear] = useState("2024");
-  const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState("01");
 
   {loading || carbonLoading || analyzeCarbonLoading  || <div>Loading...</div>}
 
@@ -50,10 +52,12 @@ const Dashboard = () => {
   };
     fetchCarbonData('서울특별시_강남구_신사동');  
     fetchAnalyzeCarbonData('서울특별시_강남구_신사동',selectedYear,selectedMonth);
-
   },[]);
   //return <CarbonDataViewer/>;
-  return <StyledDashboard carbonData = {carbonData} analyzeCarbonData = {analyzeCarbonData} setSelectedYear = {setSelectedYear} setSelectedMonth = {setSelectedMonth}/>;
+  return <StyledDashboard carbonData = {carbonData} analyzeCarbonData = {analyzeCarbonData} 
+  setSelectedMonth = {setSelectedMonth} setSelectedYear = {setSelectedYear} selectedMonth = {selectedMonth}
+  selectedYear = {selectedYear} setBarSelectedYear = {setBarSelectedYear}  setLineSelectedYear = {setLineSelectedYear}
+  LineSelectedYear={LineSelectedYear} BarSelectedYear = {barSelectedYear}/>;
 };
 
 export default Dashboard;
