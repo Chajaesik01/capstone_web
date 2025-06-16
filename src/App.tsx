@@ -3,7 +3,7 @@ import GlobalStyle from './GlobalStyle';
 import { Router } from '@/routes/Router';
 import { AuthProvider } from '@/store/AuthContext';
 import { useEffect } from 'react';
-import { getUserDB, getUserId } from '@/api/api';
+import { getUserDB, getUserId } from '@/api/auth/api';
 
 function App() {
   const { updateCache } = useUserStore();

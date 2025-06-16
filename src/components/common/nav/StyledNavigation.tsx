@@ -69,7 +69,7 @@ const S = {
   NavigationLogo: styled.div`
     width: auto;
     height: auto;
-    background-color: blue;
+
     padding: 10px;
     color: white;
   `,

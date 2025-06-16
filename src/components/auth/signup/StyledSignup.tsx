@@ -5,7 +5,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SignupSchema } from '@/schema/schema';
 import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
-import { saveToUserDB } from '@/api/api';
+import { saveToUserDB } from '@/api/auth/api';
 import type { AuthProps } from '@/types/types';
 import DaumPost, { type AddressObj } from '@/api/kakao/DaumPost';
 import { useState } from 'react';

@@ -1,4 +1,4 @@
-import { getUserDB, getUserId, type UserType } from '@/api/api';
+import { getUserDB, getUserId, type UserType } from '@/api/auth/api';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 export const useUserStore = () => {
