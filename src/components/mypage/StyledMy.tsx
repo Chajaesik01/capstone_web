@@ -1,4 +1,4 @@
-import type { UserInfoType } from '@/api/api';
+import type { UserInfoType } from '@/api/auth/api';
 import Button from '@/components/common/button/Button';
 import Input from '@/components/common/input/Input';
 import { colors } from '@/styles';

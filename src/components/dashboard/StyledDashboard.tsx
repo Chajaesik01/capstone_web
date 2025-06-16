@@ -12,8 +12,28 @@ import calendar from '@/assets/dashboard/calendar.svg';
 import BarLineChart from './chart/BarLineChart';
 import CircleChart from './chart/CircleChart';
 import LineChart from './chart/LineChart';
+import type { CarbonAnalysisResult } from '@/types/types';
+import { useState } from 'react';
 
-const StyledDashboard = () => {
+type StyledDashboardProps = {
+  carbonData: any; // 실제 type으로 변경 필요
+  analyzeCarbonData: CarbonAnalysisResult | undefined;
+  setSelectedYear: React.Dispatch<React.SetStateAction<string>>;
+  setSelectedMonth: React.Dispatch<React.SetStateAction<string>>;
+}
+
+
+const StyledDashboard = ({ carbonData, analyzeCarbonData, setSelectedYear, setSelectedMonth }:StyledDashboardProps) => {
+
+  
+  const [selectedYear, setSelectedYedr] = useState('2024');
+  const locationKey = "0536_0009";
+  const yearKey = "2024";
+  const cData = carbonData?.[locationKey]?.[yearKey];
+  const aData = analyzeCarbonData?.[locationKey]?.analysis;
+  console.log('carbonData : ', carbonData)
+  console.log('analyzeCarbonData : ',analyzeCarbonData)
+  
   return (
     <S.DashboardWrapper>
       <S.DashboardHeader>
@@ -21,46 +41,46 @@ const StyledDashboard = () => {
           <S.HeaderItemTitle>
             <S.Row>
               <img src={firstImg} alt="firstImg" />
-              Overall System
+              연간 총 전기 사용량
               <br />
-              Efficiency
+              {selectedYear}
             </S.Row>
           </S.HeaderItemTitle>
-          <S.HeaderItemNumber>70%</S.HeaderItemNumber>
+          <S.HeaderItemNumber>{Math.floor(aData?.totalElectricity ?? 0).toLocaleString()}Wh</S.HeaderItemNumber>
         </S.DashboardHeaderItem>
         <S.DashboardHeaderItem>
           <S.HeaderItemTitle>
             <S.Row>
               <img src={secondImg} alt="secondImg" />
-              Renewable Energy
+              월 평균 전기 사용량
               <br />
               Utillization
             </S.Row>
           </S.HeaderItemTitle>
-          <S.HeaderItemNumber>70%</S.HeaderItemNumber>
+          <S.HeaderItemNumber>{Math.floor(aData?.avgElectricity ?? 0).toLocaleString()}Wh</S.HeaderItemNumber>
         </S.DashboardHeaderItem>
         <S.DashboardHeaderItem>
           <S.HeaderItemTitle>
             <S.Row>
               <img src={thirdImg} alt="thirdImg" />
-              Carbon Emmision
+              연간 총 탄소 배출량
               <br />
-              Reduction
+              {selectedYear}
             </S.Row>
           </S.HeaderItemTitle>
-          <S.HeaderItemNumber>40%</S.HeaderItemNumber>
+          <S.HeaderItemNumber>{Math.floor(aData?.totalCarbon ?? 0).toLocaleString()}</S.HeaderItemNumber>
         </S.DashboardHeaderItem>
         <S.DashboardHeaderItem>
           <S.HeaderItemTitle>
             <S.Row>
               <img src={fourthImg} alt="fourthImg" />
-              Energy Cost
-              <br /> Savings
+              월 평균 탄소 배출량
+              <br />
             </S.Row>
           </S.HeaderItemTitle>
           <S.HeaderItemNumber>
             <S.Row>
-              <p>150</p>
+              <p>{Math.floor(aData?.avgCarbon ?? 0).toLocaleString()}</p>
               <span>
                 metric tons
                 <br />
@@ -73,14 +93,14 @@ const StyledDashboard = () => {
           <S.HeaderItemTitle>
             <S.Row>
               <img src={fifthImg} alt="fifthImg" />
-              Overall System
+              {selectedYear} 최대 월별 
               <br />
-              Carbon Footprint
+              탄소 배출량
             </S.Row>
           </S.HeaderItemTitle>
           <S.HeaderItemNumber>
             <S.Row>
-              <p>150</p>
+              <p>{Math.floor(aData?.maxCarbon ?? 0).toLocaleString()}</p>
               <span>
                 metric tons
                 <br />
@@ -88,6 +108,17 @@ const StyledDashboard = () => {
               </span>
             </S.Row>
           </S.HeaderItemNumber>
+        </S.DashboardHeaderItem>
+        <S.DashboardHeaderItem>
+          <S.HeaderItemTitle>
+            <S.Row>
+              <img src={secondImg} alt="secondImg" />
+              {selectedYear} 최소 월별
+              <br />
+              탄소 배출량
+            </S.Row>
+          </S.HeaderItemTitle>
+          <S.HeaderItemNumber>{Math.floor(aData?.minCarbon ?? 0).toLocaleString()}</S.HeaderItemNumber>
         </S.DashboardHeaderItem>
       </S.DashboardHeader>
       <S.DashboardMiddle>
