@@ -15,6 +15,7 @@ import LineChart from './chart/LineChart';
 import type { CarbonAnalysisResult } from '@/types/types';
 import { CarbonDataViewer } from './CarbonDataViewer';
 import { EnergyCarbonDataViewer } from './EnergyCarbonDataViewer';
+import { useState } from 'react';
 
 type StyledDashboardProps = {   
   carbonData: any; // 실제 type으로 변경 필요   
@@ -35,10 +36,31 @@ const StyledDashboard = ({ carbonData, analyzeCarbonData, selectedYear,
  }:StyledDashboardProps) => {
   const locationKey = "0536_0009";
   const aData = analyzeCarbonData?.[locationKey]?.analysis;
-  //const [selectedBunji, setSelectedBunji] = useState("0536_0009");
+  const [selectedBunji, setSelectedBunji] = useState("0536_0009");
+
   
   return (
+
+    
     <S.DashboardWrapper>
+      {/* <select 
+        value={selectedMonth} 
+        onChange={(e) => setSelectedMonth(e.target.value)}
+      >
+      {Object.keys(carbonData?.carbonData?.[selectedBunji]?.[selectedYear] || {}).map(month => (
+        <option key={month} value={month}>{month}</option>
+      ))}
+
+      </select> */}
+
+      {/* <select 
+        value={selectedYear} 
+        onChange={(e) => setSelectedYear(e.target.value)}
+      >
+        {carbonData[selectedBunji] && Object.keys(carbonData[selectedBunji]).map(year => (
+          <option key={year} value={year}>{year}</option>
+        ))}
+      </select> */}
       <S.DashboardHeader>
         <S.DashboardHeaderItem>
           <S.HeaderItemTitle>
@@ -136,7 +158,7 @@ const StyledDashboard = ({ carbonData, analyzeCarbonData, selectedYear,
             <h4><EnergyCarbonDataViewer setBarSelectedYear={setBarSelectedYear} BarSelectedYear={BarSelectedYear}/></h4>
           <div style={{ display: 'flex', gap: '0.7vw' }}>
             <img src={calendar} alt="calendar" />
-            우리 동네에서 내 탄소 점유율
+            우리 동네에서 5월 나의 탄소 점유율
           </div>
         </S.MiddleTitle>
         <S.Row>

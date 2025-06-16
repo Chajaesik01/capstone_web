@@ -21,13 +21,13 @@ const CircleChart = () => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const data = [170, 24.6];
+    const data = [238, 35];
     const total = data.reduce((sum, v) => sum + v, 0);
 
     chartInstance.current = new Chart(ctx, {
       type: 'pie',
       data: {
-        labels: ['Main Power', 'Green Energy'],
+        labels: ['강남구 탄소 배출량', '내 탄소 배출량'],
         datasets: [
           {
             data,
@@ -97,19 +97,19 @@ const CircleChart = () => {
       >
         <LegendItem
           color="#FFA048"
-          label="Main Power"
-          description="238 THB"
+          label="강남구 탄소 배출량"
+          description="238"
           bgColor="rgba(255, 160, 72, 0.1)"
         />
         <LegendItem
           color="#3BA881"
-          label="Green Energy"
-          description="90 THB"
+          label="나의 탄소 배출량"
+          description="35"
           bgColor="rgba(74, 184, 118, 0.1)"
         />
       </div>
       <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 20 }}>
-        Total: 194.6
+        Total: 273
       </div>
       <div
         style={{
@@ -130,7 +130,7 @@ const CircleChart = () => {
             textAlign: 'center',
           }}
         >
-          (단위: 구)
+          (5월 기준, 단위 : tCO2eq)
         </div>
       </div>
     </div>
