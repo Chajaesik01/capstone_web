@@ -26,7 +26,8 @@ export const EnergyCarbonDataViewer = ({setBarSelectedYear, BarSelectedYear} : C
         // 첫 번째 연도를 기본 선택
         if (data[firstBunji]) {
           const years = Object.keys(data[firstBunji]).sort((a, b) => parseInt(b) - parseInt(a));
-          const latestYear = years[0]; // 가장 큰 연도 (최근 연도)
+          //const latestYear = years[0]; // 가장 큰 연도 (최근 연도)
+          const latestYear = '2024';
           setBarSelectedYear(latestYear);
           setMonthlyData(data[firstBunji][latestYear] || {});
         }
