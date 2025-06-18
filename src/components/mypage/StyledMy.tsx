@@ -83,18 +83,24 @@ const S = {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 94vh;
+    width: 100vw;
+    min-height: 94vh;
+    padding: 2vh 2vw;
+    box-sizing: border-box;
   `,
   MyPageContainer: styled.div`
     display: flex;
     justify-content: center;
     align-items: flex-start;
     position: relative;
-    width: 40%;
-    height: 90%;
+    width: 40vw;
+    min-width: 320px;
+    max-width: 600px;
+    height: 90vh;
     border: 1px solid gray;
-    padding: 30px;
+    padding: 2vh 2vw;
+    box-sizing: border-box;
+    overflow-y: auto;
   `,
   MyPageBox: styled.div`
     width: 100%;
@@ -103,32 +109,53 @@ const S = {
   `,
   MyPageTitle: styled.div`
     width: 100%;
-    height: auto;
     font-weight: 700;
-    font-size: 18px;
+    font-size: 1.4vw;
+    min-font-size: 16px;
     border-bottom: 1px solid gray;
-    padding-bottom: 15px;
-    margin-bottom: 30px;
+    padding-bottom: 1vh;
+    margin-bottom: 3vh;
+
+    @media (max-width: 768px) {
+      font-size: 18px;
+    }
   `,
   MyPageItem: styled.div`
     display: flex;
     width: 100%;
-    height: auto;
     flex-direction: row;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 2vh;
+
+    @media (max-width: 600px) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
   `,
   MyPageLabel: styled.div`
-    width: 25%;
-    font-size: 14px;
+    flex: 0 0 30%; // 기존 25% → 30%로 증가
+    font-size: 1vw;
+    min-width: 80px;
+    max-width: 150px;
     font-weight: 500;
     color: #333;
+
+    @media (max-width: 600px) {
+      font-size: 14px;
+      margin-bottom: 0.5vh;
+    }
   `,
   MyPageInputSection: styled.div`
+    flex: 1;
     display: flex;
-    width: 75%;
     align-items: center;
-    gap: 10px;
+    gap: 1vw;
+
+    @media (max-width: 600px) {
+      width: 100%;
+      flex-direction: column;
+      align-items: flex-start;
+    }
   `,
   MyPageBottom: styled.div`
     display: flex;
@@ -138,44 +165,59 @@ const S = {
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 15px 0;
+    padding: 2vh 0;
   `,
   MyPageRow: styled.div`
     display: flex;
-    width: 30%;
     flex-direction: row;
-    gap: 10px;
+    gap: 1vw;
+    width: 40%;
+    min-width: 140px;
+
+    @media (max-width: 600px) {
+      width: 50%;
+    }
   `,
   MyPageQuitButton: styled.div`
     display: flex;
-    width: 15%;
-    height: 40px;
+    width: 20%;
+    min-width: 80px;
+    height: 5vh;
     background-color: ${colors.semantic.warning};
-    border-radius: 8px;
+    border-radius: 0.5vw;
     cursor: pointer;
     justify-content: center;
     align-items: center;
-    font-size: 14px;
+    font-size: 1vw;
     font-weight: 500;
 
     &:hover {
       background-color: ${colors.semantic.hover.warning};
     }
+
+    @media (max-width: 600px) {
+      font-size: 14px;
+    }
   `,
   MyPageResetButton: styled.div`
-    display: flex;
-    width: 100%;
-    height: 40px;
+    flex: 1;
+    min-width: 60px;
+    height: 5vh;
     background-color: ${colors.semantic.secondary};
-    border-radius: 8px;
+    border-radius: 0.5vw;
     cursor: pointer;
     justify-content: center;
     align-items: center;
-    font-size: 14px;
+    display: flex;
+    font-size: 1vw;
     font-weight: 500;
 
     &:hover {
       background-color: ${colors.semantic.hover.secondary};
+    }
+
+    @media (max-width: 600px) {
+      font-size: 14px;
     }
   `,
 };
