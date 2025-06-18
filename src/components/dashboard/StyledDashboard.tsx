@@ -75,7 +75,7 @@ const StyledDashboard = ({ carbonData, analyzeCarbonData, selectedYear,
               <img src={secondImg} alt="secondImg" />
               월 평균 전기 사용량
               <br />
-              {selectedMonth}월
+              2024
             </S.Row>
           </S.HeaderItemTitle>
           <S.HeaderItemNumber>{Math.floor(aData?.avgElectricity ?? 0).toLocaleString()}<span>Wh</span></S.HeaderItemNumber>
@@ -97,7 +97,7 @@ const StyledDashboard = ({ carbonData, analyzeCarbonData, selectedYear,
               <img src={fourthImg} alt="fourthImg" />
               월 평균 탄소 배출량
               <br />
-              {selectedMonth}월
+              2024
             </S.Row>
           </S.HeaderItemTitle>
           {/* <S.HeaderItemNumber>
