@@ -9,6 +9,7 @@ import HomePage from '@/pages/Homepage';
 import DashboardPage from '@/pages/DashboardPage';
 import AuthPage from '@/pages/AuthPage';
 import Navigation from '@/components/common/nav/Navigation';
+import MapDisplayPage from '@/pages/MapDisplayPage';
 import { useAuth } from '@/constants/context';
 import type { ReactNode } from 'react';
 import MyPage from '@/pages/MyPage';
@@ -47,7 +48,7 @@ const LayoutWithoutNav = () => {
 };
 
 export const Router = () => {
-  const { HOME, MYPAGE, DASHBOARD, AUTH } = ROUTER_PATH;
+  const { HOME, MYPAGE, DASHBOARD, AUTH, MAP_VISUALIZATION } = ROUTER_PATH;
 
   const router = createBrowserRouter([
     {
@@ -89,6 +90,10 @@ export const Router = () => {
           element: <AuthPage />,
         },
       ],
+    },
+    {
+      path: MAP_VISUALIZATION,
+      element: <MapDisplayPage />,
     },
   ]);
 

@@ -5,6 +5,7 @@ const ROUTER_PATH = {
   SIGNUP: '/signup',
   MYPAGE: '/mypage',
   AUTH: '/auth',
+  MAP_VISUALIZATION: '/map-visualization',
 };
 
 const NAVIGATION_BAR = {
