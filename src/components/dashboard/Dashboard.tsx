@@ -51,7 +51,7 @@ const Dashboard = () => {
     }
   };
     fetchCarbonData('서울특별시_강남구_신사동');  
-    fetchAnalyzeCarbonData('서울특별시_강남구_신사동',selectedYear,selectedMonth);
+    fetchAnalyzeCarbonData('서울특별시_강남구_신사동',selectedYear);
   },[]);
   //return <CarbonDataViewer/>;
   return <StyledDashboard carbonData = {carbonData} analyzeCarbonData = {analyzeCarbonData} 
