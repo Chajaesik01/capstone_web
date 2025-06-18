@@ -73,7 +73,7 @@ const CircleChart = () => {
     <div
       style={{
         width: 350,
-        height: 280,
+        height: '40vh',
         padding: 20,
         boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
         borderRadius: 8,
@@ -81,7 +81,6 @@ const CircleChart = () => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        marginLeft: '1.5vw',
         marginTop: '1vh',
       }}
     >

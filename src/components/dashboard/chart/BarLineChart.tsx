@@ -38,9 +38,6 @@ const BarLineChart = ({ carbonData, BarSelectedYear }: BarLineChartProps) => {
   const chartRef = useRef<HTMLCanvasElement | null>(null);
   const chartInstance = useRef<ChartType | null>(null);
 
-  console.log('BarLineChart : ', carbonData);
-  console.log("BarSelectedYear : ", BarSelectedYear);
-
   // 데이터 처리 함수
   const processChartData = () => {
     const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
@@ -204,8 +201,8 @@ const BarLineChart = ({ carbonData, BarSelectedYear }: BarLineChartProps) => {
     <div
       style={{
         display: 'flex',
-        width: '900px',
-        height: '280px',
+        width: '90%',
+        height: '40vh',
         borderRadius: '8px',
         padding: '10px',
         marginTop: '1vh',
