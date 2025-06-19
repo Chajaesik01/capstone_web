@@ -36,10 +36,9 @@ const StyledDashboard = ({ carbonData, analyzeCarbonData, selectedYear,
  }: StyledDashboardProps) => {
   const locationKey = "0536_0009";
   const aData = analyzeCarbonData?.[locationKey]?.analysis;
-  const [selectedBunji, setSelectedBunji] = useState("0536_0009");
+  //const [selectedBunji, setSelectedBunji] = useState("0536_0009");
+  //const selectedBunji = "0536_0009"
 
-  setSelectedBunji("0536_0009")
-  console.log(selectedBunji);
 
   return (
     <S.DashboardWrapper>
