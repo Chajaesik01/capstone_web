@@ -15,7 +15,6 @@ import LineChart from './chart/LineChart';
 import type { CarbonAnalysisResult } from '@/types/types';
 import { CarbonDataViewer } from './CarbonDataViewer';
 import { EnergyCarbonDataViewer } from './EnergyCarbonDataViewer';
-import { useState } from 'react';
 
 type StyledDashboardProps = {   
   carbonData: any; // 실제 type으로 변경 필요   
