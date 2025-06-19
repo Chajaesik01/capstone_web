@@ -22,6 +22,7 @@ const StyledNavigation = ({ currentPath }: StyledNavigationProps) => {
 
   const isDashboardActive = currentPath === ROUTER_PATH.DASHBOARD;
   const isMypageActive = currentPath === ROUTER_PATH.MYPAGE;
+  const isMappageActive = currentPath === ROUTER_PATH.MAP_VISUALIZATION;
 
   const handleNavigate = (path: string) => {
     navigate(path);
@@ -44,6 +45,12 @@ const StyledNavigation = ({ currentPath }: StyledNavigationProps) => {
           onClick={() => handleNavigate(ROUTER_PATH.MYPAGE)}
         >
           마이페이지
+        </S.NavigationItem>
+        <S.NavigationItem
+          $isActive={isMappageActive}
+          onClick={() => handleNavigate(ROUTER_PATH.MAP_VISUALIZATION)}
+        >
+          지도
         </S.NavigationItem>
         <S.NavigationInfo>
           {nickname}({type})
