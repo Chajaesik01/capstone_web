@@ -22,6 +22,7 @@ export interface AddressObj {
 
 type DaumPostProps = {
   setAddressObj: (obj: AddressObj) => void;
+  trigger: any;
 };
 
 function DaumPost(props: DaumPostProps) {

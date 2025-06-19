@@ -1,5 +1,5 @@
 import { getCarbonDB } from '@/api/dashboard/api';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 type CarbonDataViewerProps = {
@@ -11,6 +11,7 @@ export const EnergyCarbonDataViewer = ({setBarSelectedYear, BarSelectedYear} : C
   const [selectedBunji, setSelectedBunji] = useState("0536_0009");
   //const [selectedYear, setSelectedYear] = useState('');
   const [monthlyData, setMonthlyData] = useState({});
+  console.log(monthlyData);
 
   const address = '서울특별시_강남구_신사동';
   useEffect(() => {
@@ -25,7 +26,7 @@ export const EnergyCarbonDataViewer = ({setBarSelectedYear, BarSelectedYear} : C
         
         // 첫 번째 연도를 기본 선택
         if (data[firstBunji]) {
-          const years = Object.keys(data[firstBunji]).sort((a, b) => parseInt(b) - parseInt(a));
+          //const years = Object.keys(data[firstBunji]).sort((a, b) => parseInt(b) - parseInt(a));
           //const latestYear = years[0]; // 가장 큰 연도 (최근 연도)
           const latestYear = '2024';
           setBarSelectedYear(latestYear);

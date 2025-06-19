@@ -8,7 +8,7 @@ import fourthImg from '@/assets/dashboard/4.svg';
 import fifthImg from '@/assets/dashboard/5.svg';
 import home from '@/assets/dashboard/home.svg';
 import co2 from '@/assets/dashboard/co2.svg';
-import calendar from '@/assets/dashboard/calendar.svg';
+//import calendar from '@/assets/dashboard/calendar.svg';
 import BarLineChart from './chart/BarLineChart';
 import CircleChart from './chart/CircleChart';
 import LineChart from './chart/LineChart';
@@ -31,11 +31,15 @@ type StyledDashboardProps = {
 }
 
 const StyledDashboard = ({ carbonData, analyzeCarbonData, selectedYear, 
-  selectedMonth, LineSelectedYear, BarSelectedYear, setSelectedMonth, setBarSelectedYear, setSelectedYear, setLineSelectedYear
+  //selectedMonth, LineSelectedYear, BarSelectedYear, setSelectedMonth, setBarSelectedYear, setSelectedYear, setLineSelectedYear
+  LineSelectedYear, BarSelectedYear, setBarSelectedYear, setLineSelectedYear
  }: StyledDashboardProps) => {
   const locationKey = "0536_0009";
   const aData = analyzeCarbonData?.[locationKey]?.analysis;
   const [selectedBunji, setSelectedBunji] = useState("0536_0009");
+
+  setSelectedBunji("0536_0009")
+  console.log(selectedBunji);
 
   return (
     <S.DashboardWrapper>

@@ -231,6 +231,7 @@ export const getAvailableDates = async (address: string) => {
       if (!availableDates[year]) {
         availableDates[year] = [];
       }
+      console.log(bunji);
       
       Object.keys(yearData as Record<string, any>).forEach((month) => {
         if (!availableDates[year].includes(month)) {
