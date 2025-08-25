@@ -4,7 +4,6 @@ import Button from '@/components/common/button/Button';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SignupSchema } from '@/schema/schema';
-import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
 import { saveToUserDB } from '@/api/auth/api';
 import type { AuthProps } from '@/types/types';
 import DaumPost, { type AddressObj } from '@/api/kakao/DaumPost';
@@ -45,8 +44,7 @@ const StyledSignup = ({ onSwitch }: AuthProps) => {
 
   const onSubmit = async (data: FormType) => {
     try {
-      const auth = getAuth();
-      const userCredential = await createUserWithEmailAndPassword(
+      const userCredential = 
         auth,
         data.email,
         data.password
