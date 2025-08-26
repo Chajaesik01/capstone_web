@@ -8,7 +8,8 @@ const LogoutButton = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    Cookies.remove('userId');
+    Cookies.remove('accessToken');
+    Cookies.remove('refreshToken');
     //useUserStore().clearCache();
     navigate('/auth');
   };

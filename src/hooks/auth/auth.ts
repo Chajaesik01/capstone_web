@@ -1,15 +1,17 @@
-import { getUserDB, getUserId, type UserType } from '@/api/auth/api';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import Cookies from 'js-cookie';
+import type { UserType } from '@/types/types';
+import { getUserInfo } from '@/api/auth/api';
 
 export const useUserStore = () => {
   const queryClient = useQueryClient();
 
-  const userId = getUserId() || '';
+  const accessToken = Cookies.get('accessToken');
 
   const authUser = useQuery({
-    queryKey: ['user', 'auth', userId],
-    queryFn: () => getUserDB(userId),
-    enabled: !!userId,
+    queryKey: ['user', 'auth', accessToken],
+    queryFn: () => getUserInfo(),
+    enabled: !!accessToken,
     staleTime: Infinity,
   });
 
@@ -28,7 +30,7 @@ export const useUserStore = () => {
     },
 
     updateCache: (userData: UserType) => {
-      queryClient.setQueryData(['user', 'auth', userId], userData);
+      queryClient.setQueryData(['user', 'auth', accessToken], userData);
     },
   };
 };

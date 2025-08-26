@@ -4,10 +4,10 @@ import Button from '@/components/common/button/Button';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SignupSchema } from '@/schema/schema';
-import { saveToUserDB } from '@/api/auth/api';
 import type { AuthProps } from '@/types/types';
 import DaumPost, { type AddressObj } from '@/api/kakao/DaumPost';
 import { useState } from 'react';
+import { api } from '@/api/auth/api';
 
 type FormType = {
   email: string;
@@ -44,27 +44,24 @@ const StyledSignup = ({ onSwitch }: AuthProps) => {
 
   const onSubmit = async (data: FormType) => {
     try {
-      const userCredential = 
-        auth,
-        data.email,
-        data.password
-      );
+      const userCredential = {
+        email: data.email,
+        password: data.password,
+        nickname: data.nickname,
+        userType: data.userType,
+      };
 
-      await saveToUserDB({
-        userId: userCredential.user.uid,
-        userData: {
-          userId: userCredential.user.uid,
-          email: data.email,
-          password: '',
-          nickname: data.nickname,
-          userType: data.userType,
-          ...(data.userType === 'company' && {
-            address: addressObj.areaAddress + addressObj.townAddress,
-          }),
-          ...(data.userType === 'individual' && {
-            cardNumber: 'cardNumber',
-          }),
-        },
+      await api.postSignup({
+        email: userCredential.email,
+        password: userCredential.password,
+        nickname: userCredential.nickname,
+        userType: userCredential.userType,
+        ...(data.userType === 'company' && {
+          address: addressObj.areaAddress + addressObj.townAddress,
+        }),
+        ...(data.userType === 'individual' && {
+          cardNumber: 'cardNumber',
+        }),
       });
 
       alert('회원가입이 완료되었습니다!');

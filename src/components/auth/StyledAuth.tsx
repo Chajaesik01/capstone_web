@@ -5,12 +5,10 @@ import { useState } from 'react';
 import Login from '@/components/auth//login/Login';
 
 const StyledAuth = () => {
-  //const [isSignup, setIsSignup] = useState(false);
-
-  const isSignup = true;
+  const [isSignup, setIsSignup] = useState(false);
 
   const handleChange = () => {
-    //setIsSignup(!isSignup);
+    setIsSignup(!isSignup);
   };
 
   return (

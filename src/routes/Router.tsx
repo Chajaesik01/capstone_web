@@ -15,20 +15,20 @@ import type { ReactNode } from 'react';
 import MyPage from '@/pages/MyPage';
 
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
-  const { userId } = useAuth();
+  //const { userId } = useAuth();
 
-  if (!userId) {
-    return <Navigate to={ROUTER_PATH.AUTH} replace />;
-  }
+  // if (!userId) {
+  //   return <Navigate to={ROUTER_PATH.AUTH} replace />;
+  // }
 
   return <>{children}</>;
 };
 
 const DefaultRoute = () => {
-  const { userId } = useAuth();
+  const { accessToken } = useAuth();
   const { DASHBOARD, AUTH } = ROUTER_PATH;
 
-  if (userId) {
+  if (accessToken) {
     return <Navigate to={DASHBOARD} replace />;
   }
   return <Navigate to={AUTH} replace />;
