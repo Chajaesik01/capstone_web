@@ -1,18 +1,14 @@
 import Button from '@/components/common/button/Button';
 import Input from '@/components/common/input/Input';
 import styled from 'styled-components';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { Controller, useForm } from 'react-hook-form';
 import { LoginSchema } from '@/schema/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import type { AuthProps } from '@/types/types';
+import type { LoginType, AuthProps } from '@/types/types';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { useAuth } from '@/constants/context';
-type LoginType = {
-  email: string;
-  password: string;
-};
+import { api } from '@/api/auth/api';
 
 const StyledLogin = ({ onSwitch }: AuthProps) => {
   const {
@@ -30,18 +26,14 @@ const StyledLogin = ({ onSwitch }: AuthProps) => {
 
   const navigate = useNavigate();
 
-  const { setUserId } = useAuth();
+  const { setAccessToken } = useAuth();
 
   const onSubmit = async (data: LoginType) => {
     try {
-      const auth = getAuth();
-      const login = await signInWithEmailAndPassword(
-        auth,
-        data.email,
-        data.password
-      );
-      Cookies.set('userId', login.user.uid, { expires: 30 });
-      setUserId(login.user.uid);
+      const token = await api.postLogin(data);
+      token.accessToken = token.accessToken.substring(7);
+      Cookies.set('accessToken', token.accessToken, { expires: 30 });
+      setAccessToken(token.accessToken);
       navigate('/dashboard');
     } catch (error: unknown) {
       console.error('로그인 에러', error);

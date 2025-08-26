@@ -3,12 +3,17 @@ import Cookies from 'js-cookie';
 import { AuthContext } from '@/constants/context';
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [userId, setUserId] = useState<string | undefined>(() =>
-    Cookies.get('userId')
+  const [accessToken, setAccessToken] = useState<string | undefined>(() =>
+    Cookies.get('accessToken')
   );
 
   return (
-    <AuthContext.Provider value={{ userId, setUserId }}>
+    <AuthContext.Provider
+      value={{
+        accessToken,
+        setAccessToken,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

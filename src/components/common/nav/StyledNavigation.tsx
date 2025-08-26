@@ -13,11 +13,12 @@ const StyledNavigation = ({ currentPath }: StyledNavigationProps) => {
   const navigate = useNavigate();
 
   const { user, isLoading, isAuthenticated, error } = useUserStore();
+  console.log(user);
   if (isLoading) return <div>로딩 중...</div>;
   if (error) return <div>에러: {error.message}</div>;
   if (!isAuthenticated) return <div>로그인이 필요합니다</div>;
 
-  const type = user.userType === 'company' ? '기업회원' : '개인회원';
+  const type = user.type === 'company' ? '기업회원' : '개인회원';
   const nickname = user.nickname || '사용자';
 
   const isDashboardActive = currentPath === ROUTER_PATH.DASHBOARD;
