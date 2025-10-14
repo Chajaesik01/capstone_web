@@ -30,8 +30,9 @@ const LineChart = ({carbonData, LineSelectedYear} : LineChartProps) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const chartInstance = useRef<ChartType | null>(null);
 
-  const locationKey = "0536_0009";
-  const cData = carbonData?.[locationKey]?.[LineSelectedYear];
+  // 첫 번째 주소 키를 자동으로 가져오기
+  const locationKey = carbonData ? Object.keys(carbonData)[0] : null;
+  const cData = locationKey ? carbonData[locationKey]?.[LineSelectedYear] : null;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -43,20 +44,18 @@ const LineChart = ({carbonData, LineSelectedYear} : LineChartProps) => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // 월별 데이터 처리
-    const months = Object.keys(cData).sort(); // 월을 정렬 (01, 02, 03, ...)
+    // 월별 데이터 처리 (숫자로 정렬)
+    const months = Object.keys(cData).sort((a, b) => parseInt(a) - parseInt(b));
     
-    // 각 월의 탄소 배출량 데이터 추출
     const carbonEmissions = months.map(month => {
       const monthData = cData[month];
       return monthData?.carbon_emission_kgCO2eq || 0;
     });
 
-    const monthLabels = months.map(month => `${parseInt(month)}월`);
+    const monthLabels = months.map(month => `${month}월`);
 
-   
     const maxEmission = Math.max(...carbonEmissions);
-    const yAxisMax = Math.ceil(maxEmission / 1000) * 1000; // 1000 단위로 반올림
+    const yAxisMax = Math.ceil(maxEmission / 1000) * 1000;
 
     chartInstance.current = new Chart(ctx, {
       type: 'line',

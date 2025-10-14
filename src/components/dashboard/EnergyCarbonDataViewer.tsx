@@ -7,7 +7,8 @@ type CarbonDataViewerProps = {
   BarSelectedYear: string;
 }
 export const EnergyCarbonDataViewer = ({setBarSelectedYear, BarSelectedYear} : CarbonDataViewerProps) => {
-  const [carbonData, setCarbonData] = useState(null);
+  //const [carbonData, setCarbonData] = useState(null);
+  const [carbonData, setCarbonData] = useState<Record<string, any> | null>(null);
   const [selectedBunji, setSelectedBunji] = useState("0536_0009");
   //const [selectedYear, setSelectedYear] = useState('');
   const [monthlyData, setMonthlyData] = useState({});
@@ -62,6 +63,7 @@ export const EnergyCarbonDataViewer = ({setBarSelectedYear, BarSelectedYear} : C
           <option key={year} value={year}>{year}</option>
         ))}
       </select>
+      <EnergyCarbonDataViewer setBarSelectedYear={setBarSelectedYear} BarSelectedYear={BarSelectedYear}/>
       </S.ViewerWrapper>
     </div>
   );

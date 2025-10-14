@@ -2,9 +2,9 @@ import { AuthContext } from '@/constants/context';
 import Cookies from 'js-cookie';
 import { useContext } from 'react';
 import axios from 'axios';
-import type { LoginType, UserType } from '@/types/types';
+import type { LoginType, UserInfoType } from '@/types/types';
 
-const apiClient = axios.create({
+export const apiClient = axios.create({
   baseURL: 'http://localhost:8080/api',
   timeout: 10000,
   headers: {
@@ -87,12 +87,15 @@ export const api = {
     };
   },
 
-  postSignup: async (userData: UserType) => {
+  postSignup: async (userData: UserInfoType) => {
     const response = await apiClient.post('/signup', {
       username: userData.email,
       password: userData.password,
       nickname: userData.nickname,
       type: userData.userType,
+      carbon_emission: 500, // 임시 500으로 설정
+      address: userData.address,
+      bjd_code: userData.bjd_code
     });
     return response;
   },

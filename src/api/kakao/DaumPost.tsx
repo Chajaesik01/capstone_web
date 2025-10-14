@@ -13,11 +13,13 @@ type DaumPostcodeData = {
   sigungu: string;
   bname: string;
   buildingName: string;
+  bcode: string;
 };
 
 export interface AddressObj {
   areaAddress: string;
   townAddress: string;
+  bjdCode: string;
 }
 
 type DaumPostProps = {
@@ -52,6 +54,7 @@ function DaumPost(props: DaumPostProps) {
         areaAddress: localAddress,
         townAddress: (fullAddress +=
           extraAddress !== '' ? `(${extraAddress})` : ''),
+        bjdCode: data.bcode
       });
       // 주소 검색이 완료된 후 결과를 매개변수로 전달
       // 다음에 수행할 작업을 명시

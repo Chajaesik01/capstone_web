@@ -16,6 +16,7 @@ type FormType = {
   nickname: string;
   userType: string;
   cardNumber?: string;
+  address?: string;
 };
 
 const StyledSignup = ({ onSwitch }: AuthProps) => {
@@ -40,6 +41,7 @@ const StyledSignup = ({ onSwitch }: AuthProps) => {
   const [addressObj, setAddressObj] = useState<AddressObj>({
     areaAddress: '',
     townAddress: '',
+    bjdCode: '',
   });
 
   const onSubmit = async (data: FormType) => {
@@ -49,6 +51,7 @@ const StyledSignup = ({ onSwitch }: AuthProps) => {
         password: data.password,
         nickname: data.nickname,
         userType: data.userType,
+        address: data.address!,
       };
 
       await api.postSignup({
@@ -56,12 +59,18 @@ const StyledSignup = ({ onSwitch }: AuthProps) => {
         password: userCredential.password,
         nickname: userCredential.nickname,
         userType: userCredential.userType,
-        ...(data.userType === 'company' && {
-          address: addressObj.areaAddress + addressObj.townAddress,
-        }),
-        ...(data.userType === 'individual' && {
-          cardNumber: 'cardNumber',
-        }),
+        // 기본 address
+        address:
+          data.userType === "company" && addressObj
+            ? (addressObj.areaAddress || "") + (addressObj.townAddress || "")
+            : userCredential.address || "",
+        // 조건부 필드
+        ...(data.userType === "individual" && { cardNumber: "cardNumber" }),
+        // UserInfoType 필수 필드 기본값
+        userId: "",
+        traffic_number: "",
+        carbon_emission: 500,
+        bjd_code: "",
       });
 
       alert('회원가입이 완료되었습니다!');

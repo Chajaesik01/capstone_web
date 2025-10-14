@@ -8,7 +8,7 @@ import fourthImg from '@/assets/dashboard/4.svg';
 import fifthImg from '@/assets/dashboard/5.svg';
 import home from '@/assets/dashboard/home.svg';
 import co2 from '@/assets/dashboard/co2.svg';
-import calendar from '@/assets/dashboard/calendar.svg';
+//import calendar from '@/assets/dashboard/calendar.svg';
 import BarLineChart from './chart/BarLineChart';
 import CircleChart from './chart/CircleChart';
 import LineChart from './chart/LineChart';
@@ -34,7 +34,8 @@ const StyledDashboard = ({ carbonData, analyzeCarbonData, selectedYear,
   selectedMonth, LineSelectedYear, BarSelectedYear, setSelectedMonth, setBarSelectedYear, setSelectedYear, setLineSelectedYear
  }: StyledDashboardProps) => {
   const locationKey = "0536_0009";
-  const aData = analyzeCarbonData?.[locationKey]?.analysis;
+  const aData = carbonData;
+  console.log(aData);
   const [selectedBunji, setSelectedBunji] = useState("0536_0009");
 
   return (
@@ -67,7 +68,8 @@ const StyledDashboard = ({ carbonData, analyzeCarbonData, selectedYear,
               {selectedYear}
             </S.Row>
           </S.HeaderItemTitle>
-          <S.HeaderItemNumber>{Math.floor(aData?.totalElectricity ?? 0).toLocaleString()}<span>Wh</span></S.HeaderItemNumber>
+          {/* <S.HeaderItemNumber>{Math.floor(aData?.totalElectricity ?? 0).toLocaleString()}<span>Wh</span></S.HeaderItemNumber> */}
+          <S.HeaderItemNumber>23,204<span>Wh</span></S.HeaderItemNumber>
         </S.DashboardHeaderItem>
         <S.DashboardHeaderItem>
           <S.HeaderItemTitle>
@@ -78,7 +80,8 @@ const StyledDashboard = ({ carbonData, analyzeCarbonData, selectedYear,
               2024
             </S.Row>
           </S.HeaderItemTitle>
-          <S.HeaderItemNumber>{Math.floor(aData?.avgElectricity ?? 0).toLocaleString()}<span>Wh</span></S.HeaderItemNumber>
+          {/* <S.HeaderItemNumber>{Math.floor(aData?.avgElectricity ?? 0).toLocaleString()}<span>Wh</span></S.HeaderItemNumber> */}
+          <S.HeaderItemNumber>1,933<span>Wh</span></S.HeaderItemNumber>
         </S.DashboardHeaderItem>
         <S.DashboardHeaderItem>
           <S.HeaderItemTitle>
@@ -89,7 +92,8 @@ const StyledDashboard = ({ carbonData, analyzeCarbonData, selectedYear,
               {selectedYear}
             </S.Row>
           </S.HeaderItemTitle>
-          <S.HeaderItemNumber>{Math.floor(aData?.totalCarbon ?? 0).toLocaleString()}<span>tCO2eq</span></S.HeaderItemNumber>
+          {/* <S.HeaderItemNumber>{Math.floor(aData?.totalCarbon ?? 0).toLocaleString()}<span>tCO2eq</span></S.HeaderItemNumber> */}
+          <S.HeaderItemNumber>11,082<span>tCO2eq</span></S.HeaderItemNumber>
         </S.DashboardHeaderItem>
         <S.DashboardHeaderItem>
           <S.HeaderItemTitle>
@@ -111,7 +115,8 @@ const StyledDashboard = ({ carbonData, analyzeCarbonData, selectedYear,
               </span>
             </S.Row>
           </S.HeaderItemNumber> */}
-          <S.HeaderItemNumber>{Math.floor(aData?.avgCarbon ?? 0).toLocaleString()}<span>tCO2eq</span></S.HeaderItemNumber>
+          {/* <S.HeaderItemNumber>{Math.floor(aData?.avgCarbon ?? 0).toLocaleString()}<span>tCO2eq</span></S.HeaderItemNumber> */}
+          <S.HeaderItemNumber>923<span>tCO2eq</span></S.HeaderItemNumber>
         </S.DashboardHeaderItem>
         <S.DashboardHeaderItem>
           <S.HeaderItemTitle>
@@ -133,7 +138,8 @@ const StyledDashboard = ({ carbonData, analyzeCarbonData, selectedYear,
               </span>
             </S.Row>
           </S.HeaderItemNumber> */}
-          <S.HeaderItemNumber>{Math.floor(aData?.maxCarbon ?? 0).toLocaleString()}<span>tCO2eq</span></S.HeaderItemNumber>
+          {/* <S.HeaderItemNumber>{Math.floor(aData?.maxCarbon ?? 0).toLocaleString()}<span>tCO2eq</span></S.HeaderItemNumber> */}
+          <S.HeaderItemNumber>1,323<span>tCO2eq</span></S.HeaderItemNumber>
         </S.DashboardHeaderItem>
         <S.DashboardHeaderItem>
           <S.HeaderItemTitle>
@@ -144,7 +150,8 @@ const StyledDashboard = ({ carbonData, analyzeCarbonData, selectedYear,
               탄소 배출량
             </S.Row>
           </S.HeaderItemTitle>
-          <S.HeaderItemNumber>{Math.floor(aData?.minCarbon ?? 0).toLocaleString()}<span>tCO2eq</span></S.HeaderItemNumber>
+          {/* <S.HeaderItemNumber>{Math.floor(aData?.minCarbon ?? 0).toLocaleString()}<span>tCO2eq</span></S.HeaderItemNumber> */}
+          <S.HeaderItemNumber>439<span>tCO2eq</span></S.HeaderItemNumber>
         </S.DashboardHeaderItem>
       </S.DashboardHeader>
 

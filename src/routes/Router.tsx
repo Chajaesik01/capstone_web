@@ -9,7 +9,7 @@ import HomePage from '@/pages/Homepage';
 import DashboardPage from '@/pages/DashboardPage';
 import AuthPage from '@/pages/AuthPage';
 import Navigation from '@/components/common/nav/Navigation';
-import MapDisplayPage from '@/pages/MapDisplayPage';
+//import MapDisplayPage from '@/pages/MapDisplayPage';
 import { useAuth } from '@/constants/context';
 import type { ReactNode } from 'react';
 import MyPage from '@/pages/MyPage';
@@ -93,7 +93,7 @@ export const Router = () => {
     },
     {
       path: MAP_VISUALIZATION,
-      element: <MapDisplayPage />,
+      // element: <MapDisplayPage />,
     },
   ]);
 
