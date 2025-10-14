@@ -23,6 +23,8 @@ const StyledNavigation = ({ currentPath }: StyledNavigationProps) => {
 
   const isDashboardActive = currentPath === ROUTER_PATH.DASHBOARD;
   const isMypageActive = currentPath === ROUTER_PATH.MYPAGE;
+  const isBoardActive = currentPath === ROUTER_PATH.BOARD;
+  const isRecommendActive = currentPath === ROUTER_PATH.RECOMMEND;
 
   const handleNavigate = (path: string) => {
     navigate(path);
@@ -41,14 +43,28 @@ const StyledNavigation = ({ currentPath }: StyledNavigationProps) => {
         </S.NavigationItem>
 
         <S.NavigationItem
+          $isActive={isBoardActive}
+          onClick={() => handleNavigate(ROUTER_PATH.BOARD)}
+        >
+          장터게시판
+        </S.NavigationItem>
+
+        <S.NavigationItem
+          $isActive={isRecommendActive}
+          onClick={() => handleNavigate(ROUTER_PATH.RECOMMEND)}
+        >
+          AI
+        </S.NavigationItem>
+
+        <S.NavigationItem
           $isActive={isMypageActive}
           onClick={() => handleNavigate(ROUTER_PATH.MYPAGE)}
         >
           마이페이지
         </S.NavigationItem>
-        <S.NavigationInfo>
+        {/* <S.NavigationInfo>
           {nickname}({type})
-        </S.NavigationInfo>
+        </S.NavigationInfo> */}
         <LogoutButton />
       </S.NavigationSelect>
     </S.NavigationContainer>

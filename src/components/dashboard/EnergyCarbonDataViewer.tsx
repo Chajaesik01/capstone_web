@@ -38,7 +38,7 @@ export const EnergyCarbonDataViewer = ({setBarSelectedYear, BarSelectedYear} : C
     if (address) {
       fetchData();
     }
-  }, [address]);
+  }, []);
 
   // 부지나 연도 변경 시 월별 데이터 업데이트
   useEffect(() => {
@@ -63,7 +63,6 @@ export const EnergyCarbonDataViewer = ({setBarSelectedYear, BarSelectedYear} : C
           <option key={year} value={year}>{year}</option>
         ))}
       </select>
-      <EnergyCarbonDataViewer setBarSelectedYear={setBarSelectedYear} BarSelectedYear={BarSelectedYear}/>
       </S.ViewerWrapper>
     </div>
   );
