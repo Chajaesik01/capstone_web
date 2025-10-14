@@ -1,17 +1,18 @@
 import { getCarbonDB } from '@/api/dashboard/api';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import LineChart from './chart/LineChart';
 
 type CarbonDataViewerProps = {
   LineSetSelectedYear: (year: string) => void;
   LineSelectedYear: string;
 }
-export const CarbonDataViewer = ({LineSetSelectedYear, LineSelectedYear} : CarbonDataViewerProps) => {
-  const [carbonData, setCarbonData] = useState(null);
-  const [selectedBunji, setSelectedBunji] = useState("0536_0009");
-  //const [selectedYear, setSelectedYear] = useState('');
-  const [monthlyData, setMonthlyData] = useState({});
 
+export const CarbonDataViewer = ({LineSetSelectedYear, LineSelectedYear} : CarbonDataViewerProps) => {
+  const [carbonData, setCarbonData] = useState<Record<string, any> | null>(null);
+  const [selectedBunji, setSelectedBunji] = useState("");
+  const [monthlyData, setMonthlyData] = useState({});
+  
   const address = '서울특별시_강남구_신사동';
   useEffect(() => {
     const fetchData = async () => {
@@ -52,7 +53,7 @@ export const CarbonDataViewer = ({LineSetSelectedYear, LineSelectedYear} : Carbo
   return (
     <div>
       <S.ViewerWrapper>
-      <h2>탄소 배출 데이터(년도)</h2>
+      <h2>탄소 배출량(년도)</h2>
       {/* 연도 선택 */}
       <select 
         value={LineSelectedYear} 
@@ -61,6 +62,7 @@ export const CarbonDataViewer = ({LineSetSelectedYear, LineSelectedYear} : Carbo
         {carbonData[selectedBunji] && Object.keys(carbonData[selectedBunji]).map(year => (
           <option key={year} value={year}>{year}</option>
         ))}
+        <LineChart carbonData={carbonData} LineSelectedYear={LineSelectedYear}/>
       </select>
       </S.ViewerWrapper>
     </div>
@@ -73,6 +75,4 @@ const S = {
     flex-direction: row;
     gap: 1%;
   `
-
-
 }

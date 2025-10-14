@@ -9,13 +9,15 @@ import HomePage from '@/pages/Homepage';
 import DashboardPage from '@/pages/DashboardPage';
 import AuthPage from '@/pages/AuthPage';
 import Navigation from '@/components/common/nav/Navigation';
-import MapDisplayPage from '@/pages/MapDisplayPage';
+//import MapDisplayPage from '@/pages/MapDisplayPage';
 import { useAuth } from '@/constants/context';
 import type { ReactNode } from 'react';
 import MyPage from '@/pages/MyPage';
+import BoardPage from '@/pages/BoardPage';
+import RecommendPage from '@/pages/RecommendPage';
 
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
-  //const { userId } = useAuth();
+  // const { userId } = useAuth();
 
   // if (!userId) {
   //   return <Navigate to={ROUTER_PATH.AUTH} replace />;
@@ -48,7 +50,7 @@ const LayoutWithoutNav = () => {
 };
 
 export const Router = () => {
-  const { HOME, MYPAGE, DASHBOARD, AUTH, MAP_VISUALIZATION } = ROUTER_PATH;
+  const { HOME, MYPAGE, DASHBOARD, BOARD, AUTH, RECOMMEND, MAP_VISUALIZATION } = ROUTER_PATH;
 
   const router = createBrowserRouter([
     {
@@ -62,6 +64,22 @@ export const Router = () => {
         {
           path: HOME,
           element: <HomePage />,
+        },
+        {
+          path: BOARD,
+          element: (
+            <ProtectedRoute>
+              <BoardPage />,
+            </ProtectedRoute>
+          ) 
+        },
+        {
+          path: RECOMMEND,
+          element: (
+            <ProtectedRoute>
+              <RecommendPage/>,
+            </ProtectedRoute>
+          )
         },
         {
           path: MYPAGE,
@@ -93,7 +111,7 @@ export const Router = () => {
     },
     {
       path: MAP_VISUALIZATION,
-      element: <MapDisplayPage />,
+      // element: <MapDisplayPage />,
     },
   ]);
 

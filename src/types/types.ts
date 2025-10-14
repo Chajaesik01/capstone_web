@@ -17,8 +17,10 @@ export type UserInfoType = {
   password: string;
   nickname: string;
   userType: string;
-  address: string;
+  address?: string;
   traffic_number: string;
+  carbon_emission: number;
+  bjd_code?: string;
 };
 
 export type AuthProps = {
