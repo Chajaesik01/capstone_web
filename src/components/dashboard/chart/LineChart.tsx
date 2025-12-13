@@ -30,13 +30,9 @@ const LineChart = ({carbonData, LineSelectedYear} : LineChartProps) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const chartInstance = useRef<ChartType | null>(null);
 
-  // 첫 번째 주소 키를 자동으로 가져오기
-  const locationKey = carbonData ? Object.keys(carbonData)[0] : null;
-  const cData = locationKey ? carbonData[locationKey]?.[LineSelectedYear] : null;
-
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas || !cData) return;
+    if (!canvas || !carbonData) return;
 
     const existingChart = Chart.getChart(canvas);
     if (existingChart) existingChart.destroy();
@@ -44,80 +40,60 @@ const LineChart = ({carbonData, LineSelectedYear} : LineChartProps) => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // 월별 데이터 처리 (숫자로 정렬)
-    const months = Object.keys(cData).sort((a, b) => parseInt(a) - parseInt(b));
-    
-    const carbonEmissions = months.map(month => {
-      const monthData = cData[month];
-      return monthData?.carbon_emission_kgCO2eq || 0;
-    });
+    // 첫 번째 주소의 데이터 가져오기
+    const locationKey = Object.keys(carbonData)[0];
+    const yearData = carbonData[locationKey]?.[LineSelectedYear];
 
-    const monthLabels = months.map(month => `${month}월`);
+    if (!yearData) return;
 
-    const maxEmission = Math.max(...carbonEmissions);
+    // 월별 데이터 추출 및 정렬
+    const months = Object.keys(yearData).sort();
+    if (months.length === 0) return;
+
+    const carbonEmissions = months.map(month => 
+      yearData[month]?.carbon_emission_kgCO2eq || 0
+    );
+
+    const monthLabels = months.map(month => `${parseInt(month)}월`);
+
+    const maxEmission = Math.max(...carbonEmissions, 1);
     const yAxisMax = Math.ceil(maxEmission / 1000) * 1000;
 
     chartInstance.current = new Chart(ctx, {
       type: 'line',
       data: {
         labels: monthLabels,
-        datasets: [
-          {
-            label: '탄소 배출량 (kgCO2eq)',
-            data: carbonEmissions,
-            borderColor: '#4AB876',
-            backgroundColor: 'rgba(74, 184, 118, 0.1)',
-            tension: 0.4,
-            fill: true,
-            pointRadius: 4,
-            pointBackgroundColor: '#4AB876',
-            pointBorderColor: '#ffffff',
-            pointBorderWidth: 2,
-          },
-        ],
+        datasets: [{
+          label: '탄소 배출량 (kgCO2eq)',
+          data: carbonEmissions,
+          borderColor: '#4AB876',
+          backgroundColor: 'rgba(74, 184, 118, 0.1)',
+          tension: 0.4,
+          fill: true,
+          pointRadius: 4,
+          pointBackgroundColor: '#4AB876',
+          pointBorderColor: '#ffffff',
+          pointBorderWidth: 2,
+        }],
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-          legend: { 
-            display: true,
-            position: 'top',
-          },
+          legend: { display: true, position: 'top' },
           tooltip: { 
-            mode: 'index', 
-            intersect: false,
             callbacks: {
-              label: function(context) {
-                return `${context.dataset.label}: ${context.parsed.y.toLocaleString()} kgCO2eq`;
-              }
+              label: (context) => 
+                `${context.dataset.label}: ${Math.round(context.parsed.y).toLocaleString()} kgCO2eq`
             }
           },
-        },
-        interaction: {
-          mode: 'nearest',
-          axis: 'x',
-          intersect: false,
         },
         scales: {
-          x: {
-            display: true,
-            title: {
-              display: true,
-              text: '월'
-            }
-          },
+          x: { title: { display: true, text: '월' } },
           y: {
-            display: true,
             min: 0,
             max: yAxisMax,
-            title: {
-              display: false,
-              text: '탄소 배출량 (kgCO2eq)'
-            },
-            ticks: {
-              callback: (value) => `${(value as number).toLocaleString()}`,
-            },
+            ticks: { callback: (value) => `${(value as number).toLocaleString()}` },
           },
         },
       },
@@ -127,25 +103,18 @@ const LineChart = ({carbonData, LineSelectedYear} : LineChartProps) => {
       chartInstance.current?.destroy();
       chartInstance.current = null;
     };
-  }, [cData]);
+  }, [carbonData, LineSelectedYear]);
 
   return (
-    <div
-      style={{
-        width: '100%',
-        height: 200,
-        boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-        borderRadius: 8,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: '1vh',
-      }}
-    >
-      <div style={{ width: '100%', height: '100%' }}>
-        <canvas ref={canvasRef} />
-      </div>
+    <div style={{
+      width: '100%',
+      height: 200,
+      boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+      borderRadius: 8,
+      marginTop: '1vh',
+      padding: 20,
+    }}>
+      <canvas ref={canvasRef} />
     </div>
   );
 };

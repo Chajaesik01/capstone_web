@@ -11,9 +11,9 @@ const Dashboard = () => {
   const [analyzeCarbonData, setAnalyzeCarbonData] = useState<CarbonAnalysisResult>();
   const [analyzeCarbonLoading, setAnalyzeCarbonLoading] = useState(true);
   const {latestData, selectedData, availableDates, loading } = useCarbonData('서울특별시_강남구_신사동');
-  const [barSelectedYear, setBarSelectedYear] = useState("2024");
-  const [LineSelectedYear, setLineSelectedYear] = useState("2024");
-  const [selectedYear, setSelectedYear] = useState("2024");
+  const [barSelectedYear, setBarSelectedYear] = useState("2025");
+  const [LineSelectedYear, setLineSelectedYear] = useState("2025");
+  const [selectedYear, setSelectedYear] = useState("2025");
   const [selectedMonth, setSelectedMonth] = useState("01");
 
   {loading || carbonLoading || analyzeCarbonLoading  || <div>Loading...</div>}

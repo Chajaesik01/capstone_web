@@ -10,20 +10,25 @@ export const getCarbonDB = async (address: string) => {
   const response = await apiClient.get('/carbon-data/all');
   const data = response.data;
 
-  // 📊 2. DB에서 받은 flat 배열 → address별/년도별/월별로 그룹화
   const groupedData: Record<string, any> = {};
 
   data.forEach((item: any) => {
-    const addrKey = `${item.inputAddressName} ${item.inputBun}-${item.inputJi}`;
-    const year = String(item.usageYear);
-    const month = String(item.usageMonth);
+    const addrKey = `${item.inputAddressName || ''} ${item.inputBun || ''}-${item.inputJi || ''}`.trim();
+    
+    // usageMonth에서 년도와 월 추출 (예: "202501" -> "2025", "01")
+    const year = item.usageMonth.substring(0, 4);
+    const month = item.usageMonth.substring(4, 6);
 
     if (!groupedData[addrKey]) groupedData[addrKey] = {};
     if (!groupedData[addrKey][year]) groupedData[addrKey][year] = {};
 
+    // 전기: 0.4747 kgCO2eq/kWh, 가스: 2.23 kgCO2eq/m³
+    const carbonEmission = (item.electricityUsage * 0.4747) + (item.gasUsage * 2.23);
+
     groupedData[addrKey][year][month] = {
-      carbon_emission_kgCO2eq: item.carbonEmissionKgCO2eq,
-      electricity_usage_kwh: item.electricityUsageKwh,
+      carbon_emission_kgCO2eq: carbonEmission,
+      electricity_usage_kwh: item.electricityUsage,
+      gas_usage: item.gasUsage,
       latitude: item.latitude,
       longitude: item.longitude,
       road_address: item.roadAddress,

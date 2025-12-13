@@ -45,7 +45,7 @@ const StyledBoard = () => {
     }
 
     try {
-      await createPost({ title: newPostTitle, content: newPostContent });
+      await createPost({ author: newPostTitle, content: newPostContent });
       setNewPostTitle(''); // 입력 필드 초기화
       setNewPostContent('');
       await fetchPosts(); // 게시글 목록 새로고침
@@ -80,7 +80,7 @@ const StyledBoard = () => {
   return (
     <S.BoardWrapper>
       <S.BoardContainer>
-        <S.BoardTitle>자유 게시판</S.BoardTitle>
+        <S.BoardTitle>탄소 배출량 장터</S.BoardTitle>
 
         {/* --- 게시글 생성 UI --- */}
         <S.FormContainer onSubmit={handleCreatePost}>
@@ -104,8 +104,8 @@ const StyledBoard = () => {
             posts.map((post) => (
               <S.PostItem key={post.id}>
                 <S.PostContent>
-                  <span>{post.title}</span>
-                  <span>{post.authorNickname}</span>
+                  <span>{post.author}</span>
+                  <span>{post.content}</span>
                 </S.PostContent>
                 {/* --- 삭제 버튼 --- */}
                 <S.DeleteButton onClick={() => handleDeletePost(post.id)}>삭제</S.DeleteButton>

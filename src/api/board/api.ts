@@ -2,14 +2,14 @@ import { apiClient } from "../auth/api";
 
 export interface Post {
   id: number;
-  title: string;
+  author: string;
   content: string;
   authorNickname: string;
 }
 
 // 백엔드의 PostRequestDto와 일치하는 타입
 export interface PostRequestBody {
-  title: string;
+  author: string;
   content: string;
 }
 

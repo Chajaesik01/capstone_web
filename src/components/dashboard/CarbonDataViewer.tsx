@@ -28,7 +28,7 @@ export const CarbonDataViewer = ({LineSetSelectedYear, LineSelectedYear} : Carbo
         if (data[firstBunji]) {
           const years = Object.keys(data[firstBunji]).sort((a, b) => parseInt(b) - parseInt(a));
           //const latestYear = years[0]; // 가장 큰 연도 (최근 연도)
-          const latestYear = '2024';
+          const latestYear = '2025';
           LineSetSelectedYear(latestYear);
           setMonthlyData(data[firstBunji][latestYear] || {});
         }

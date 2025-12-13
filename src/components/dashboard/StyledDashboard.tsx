@@ -35,7 +35,7 @@ const StyledDashboard = ({ carbonData, analyzeCarbonData, selectedYear,
  }: StyledDashboardProps) => {
   const locationKey = "0536_0009";
   const aData = carbonData;
-  console.log(aData);
+  console.log("aData : ", aData);
   const [selectedBunji, setSelectedBunji] = useState("0536_0009");
 
   return (
@@ -77,7 +77,7 @@ const StyledDashboard = ({ carbonData, analyzeCarbonData, selectedYear,
               <img src={secondImg} alt="secondImg" />
               월 평균 전기 사용량
               <br />
-              2024
+              2025
             </S.Row>
           </S.HeaderItemTitle>
           {/* <S.HeaderItemNumber>{Math.floor(aData?.avgElectricity ?? 0).toLocaleString()}<span>Wh</span></S.HeaderItemNumber> */}
@@ -101,7 +101,7 @@ const StyledDashboard = ({ carbonData, analyzeCarbonData, selectedYear,
               <img src={fourthImg} alt="fourthImg" />
               월 평균 탄소 배출량
               <br />
-              2024
+              2025
             </S.Row>
           </S.HeaderItemTitle>
           {/* <S.HeaderItemNumber>
@@ -170,7 +170,7 @@ const StyledDashboard = ({ carbonData, analyzeCarbonData, selectedYear,
           <S.wRow>
             <div>
               {/* <img src={calendar} alt="calendar" /> */}
-              <p>우리 동네에서 5월 나의 탄소 점유율</p>
+              <p>우리 동네에서 11월 나의 탄소 점유율</p>
             </div>
             <span></span>
           </S.wRow> 

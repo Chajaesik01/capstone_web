@@ -31,15 +31,14 @@ const StyledRecommend = () => {
       <S.RecommendContainer>
         <S.Icon>🌍</S.Icon>
         <S.Title>AI가 제안하는 오늘의 탄소 절감 방법!</S.Title>
-        <S.Description>
-          당신의 활동 데이터를 기반으로 AI가 맞춤형 탄소 절감 방안을 생성하고 있어요.
-        </S.Description>
-
         <S.ResultArea>
           {loading && (
             <>
               <S.LoadingSpinner />
               <S.LoadingText>AI가 생각 중...</S.LoadingText>
+                      <S.Description>
+                      당신의 전기 사용량을 기반으로 AI가 맞춤형 탄소 절감 방안을 생성하고 있어요.
+              </S.Description>
             </>
           )}
           {error && <S.ErrorText>{error}</S.ErrorText>}

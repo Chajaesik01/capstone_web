@@ -94,7 +94,7 @@ const S = {
   NavigationSelect: styled.div`
     display: flex;
     flex-direction: row;
-    width: 30%;
+    width: 55%;
     height: 80%;
     color: white;
     padding: 10px;
